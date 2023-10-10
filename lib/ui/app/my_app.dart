@@ -1,3 +1,4 @@
+import 'package:blog_app/ui/screen/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screen/logo_screen.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LogoApp(),
+      home: SafeArea(child: SignUpScreen()),
     );
   }
 }

@@ -1,11 +1,13 @@
 class ModelConst{
   static const String COLLECTION_ACCOUNT = "account";
-  static const String COLLECTION_BLOG = "account";
-  static const String COLLECTION_CATEGORY = "account";
-  static const String COLLECTION_COMMENT = "account";
-  static const String COLLECTION_LIKE = "account";
-  static const String FIELD_NAME = "account";
-  static const String FIELD_PASS = "account";
-  static const String FIELD_AVATAR = "account";
-
+  static const String COLLECTION_BLOG = "blog";
+  static const String COLLECTION_CATEGORY = "category";
+  static const String COLLECTION_COMMENT = "comment";
+  static const String COLLECTION_LIKE = "like";
+  static const String FIELD_NAME = "name";
+  static const String FIELD_PASS = "password";
+  static const String FIELD_AVATAR = "avatar";
+  static const String FIELD_EMAIL = "email";
+  static const String FIELD_GENDER = "gender";
+  static const String FIELD_STATUS = "status";
 }

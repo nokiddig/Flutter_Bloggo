@@ -2,43 +2,54 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../utils/constains/my_const.dart';
 
 class Account {
-  String _id;
   String _name = "";
-  String _password = "";
+  String _email = "";
   String? _avatarPath;
+  bool _status = true;
+  int _gender = 0;
 
-  Account(this._id, this._name, this._password, this._avatarPath);
+  Account.clone(this._email);
+
+
+  Account(this._name, this._email, this._avatarPath, this._status, this._gender);
 
   factory Account.fromFirestore(DocumentSnapshot doc) {
     final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Account(
-        doc.id,
         data[ModelConst.FIELD_NAME],
-        data[ModelConst.FIELD_PASS],
-        data[ModelConst.FIELD_AVATAR]);
+        doc.id,
+        data[ModelConst.FIELD_AVATAR],
+        data[ModelConst.FIELD_STATUS],
+        data[ModelConst.FIELD_GENDER]);
   }
 
-  String get avatarPath => _avatarPath??"";
+  int get gender => _gender;
+
+  set gender(int value) {
+    _gender = value;
+  }
+
+  bool get status => _status;
+
+  set status(bool value) {
+    _status = value;
+  }
+
+  String get avatarPath => _avatarPath ?? "";
 
   set avatarPath(String value) {
     _avatarPath = value;
   }
 
-  get password => _password;
+  String get email => _email;
 
-  set password(value) {
-    _password = value;
+  set email(String value) {
+    _email = value;
   }
 
-  String get username => _name;
+  String get name => _name;
 
-  set username(String value) {
+  set name(String value) {
     _name = value;
-  }
-
-  String get id => _id;
-
-  set id(String value) {
-    _id = value;
   }
 }
