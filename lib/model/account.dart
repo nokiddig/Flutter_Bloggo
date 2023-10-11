@@ -8,7 +8,7 @@ class Account {
   bool _status = true;
   int _gender = 0;
 
-  Account.clone(this._email);
+  Account.clone(this._email, this._name);
 
 
   Account(this._name, this._email, this._avatarPath, this._status, this._gender);

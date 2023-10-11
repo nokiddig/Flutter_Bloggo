@@ -1,14 +1,15 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class UIConst{
-  static const SizedBox sizedBox10 = SizedBox(
-    height: 10,
-  );
-  static const SizedBox sizedBox15 = SizedBox(
-    height: 15,
-  );
-  static const SizedBox sizedBox20 = SizedBox(
-    height: 20,
-  );
+  static const SizedBox SIZEDBOX10 = SizedBox(height: 10);
+  static const SizedBox SIZEDBOX15 = SizedBox(height: 15);
+  static const SizedBox SIZEDBOX20 = SizedBox(height: 20);
+  static const SizedBox SIZEDBOX25 = SizedBox(height: 25);
+  static const SizedBox SIZEDBOX30 = SizedBox(height: 30);
+  static const SizedBox SIZEDBOX35 = SizedBox(height: 35);
+
+  static const TextStyle TEXTSTYLE_WHITE = TextStyle(color: Colors.white);
+  static const TextStyle TEXTSTYLE_BLACK = TextStyle(color: Colors.black);
 }

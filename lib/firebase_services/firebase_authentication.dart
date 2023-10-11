@@ -14,3 +14,19 @@ Future<bool> registerWithEmail(String email, String password) async {
   }
   return true;
 }
+
+Future<bool> signInWithEmailAndPassword(String email, String password) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    User? user = userCredential.user;
+    print("Đăng nhập thành công");
+    // Điều hướng đến màn hình chính hoặc trang cần thiết
+  } catch (e) {
+    print("Đăng nhập thất bại: $e");
+    return false;
+  }
+  return true;
+}
