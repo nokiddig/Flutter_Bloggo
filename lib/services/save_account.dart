@@ -1,4 +1,4 @@
-import 'package:blog_app/utils/constains/string_const.dart';
+import 'package:blog_app/utils/constain/string_const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
  class  SaveAccount {

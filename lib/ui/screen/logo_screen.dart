@@ -1,6 +1,6 @@
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/signin_screen.dart';
-import 'package:blog_app/utils/constains/my_const.dart';
+import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
 class LogoScreen extends StatefulWidget {

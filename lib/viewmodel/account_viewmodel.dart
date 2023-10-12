@@ -1,4 +1,4 @@
-import 'package:blog_app/utils/constains/firebase_model_const.dart';
+import 'package:blog_app/utils/constain/firebase_model_const.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../model/account.dart';

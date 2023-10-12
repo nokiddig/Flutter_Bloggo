@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../utils/constains/my_const.dart';
+import '../utils/constain/my_const.dart';
 
 class Account {
   String _name = "";

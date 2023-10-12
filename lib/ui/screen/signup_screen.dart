@@ -1,5 +1,5 @@
 import 'package:blog_app/services/firebase_authentication.dart';
-import 'package:blog_app/utils/constains/my_const.dart';
+import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,7 @@
 import 'package:blog_app/services/save_account.dart';
-import 'package:blog_app/ui/screen/home.dart';
+import 'package:blog_app/ui/screen/bottom_navigator.dart';
 import 'package:blog_app/ui/screen/signup_screen.dart';
-import 'package:blog_app/utils/constains/my_const.dart';
+import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/firebase_authentication.dart';
@@ -213,7 +213,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (checkAccount == true) {
       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-        return const HomeScreen();
+        return const BottomNavigator();
       },),);
     }
   }
