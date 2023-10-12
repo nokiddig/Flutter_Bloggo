@@ -1,3 +1,4 @@
+import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/signin_screen.dart';
 import 'package:blog_app/utils/constains/my_const.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,16 @@ class _LogoScreenState extends State<LogoScreen> with SingleTickerProviderStateM
   void setState(VoidCallback fn) {
     super.setState(fn);
   }
-
+  /*
+    Setup 1 SaveAccount for get data from sharedPreferences
+    before login screen init
+  */
   @override
   void initState() {
+    SaveAccount();
     _controller = AnimationController(
         vsync: this,
-        duration: Duration(seconds: 3));
+        duration: Duration(seconds: 1));
 
     CurvedAnimation curvedAnimation = CurvedAnimation(
         parent: _controller, curve: Curves.easeIn);

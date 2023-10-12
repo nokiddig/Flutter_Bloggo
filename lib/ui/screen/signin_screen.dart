@@ -1,9 +1,10 @@
+import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/home.dart';
 import 'package:blog_app/ui/screen/signup_screen.dart';
 import 'package:blog_app/utils/constains/my_const.dart';
 import 'package:flutter/material.dart';
 
-import '../../firebase_services/firebase_authentication.dart';
+import '../../services/firebase_authentication.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -13,9 +14,18 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  bool isChecked = false;
+  bool _isCheckedSave = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  SaveAccount saveAccount = SaveAccount();
+
+  @override
+  void initState() {
+    _emailController.text = saveAccount.email;
+    _passwordController.text = saveAccount.pass;
+    _isCheckedSave = saveAccount.isCheckedSave;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,9 +91,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               const Text("Remember me",
                                 style: UIConst.TEXTSTYLE_BLACK,),
                               Checkbox(
-                                value: isChecked,
+                                value: _isCheckedSave,
                                 onChanged: (value) {
-                                  isChecked = !isChecked;
+                                  _isCheckedSave = !_isCheckedSave;
                                   setState(() {
                                   });
                                 },
@@ -161,6 +171,13 @@ class _SignInScreenState extends State<SignInScreen> {
     String email = _emailController.text;
     String password = _passwordController.text;
     bool checkAccount = false;
+    if (_isCheckedSave){
+      saveAccount.save(_emailController.text, _passwordController.text, _isCheckedSave);
+    }
+    else {
+      saveAccount.clear();
+    }
+
     await showDialog<bool>(
       context: context,
       barrierDismissible: true,
@@ -171,13 +188,18 @@ class _SignInScreenState extends State<SignInScreen> {
             future: signInWithEmailAndPassword(email, password),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const SizedBox(
+                  height: 100,
+                  child: Center(
+                      child: CircularProgressIndicator()),
+                );
               }
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
                 if (snapshot.data == true) {
                   checkAccount = true;
+                  Navigator.pop(context);
                   return const Text('Sign in successfully!');
                 } else {
                   return const Text('The email or password you entered is not correct!');
@@ -188,8 +210,8 @@ class _SignInScreenState extends State<SignInScreen> {
         );
       },
     );
+
     if (checkAccount == true) {
-      print(checkAccount);
       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
         return const HomeScreen();
       },),);
