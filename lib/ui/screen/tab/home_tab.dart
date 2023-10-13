@@ -33,7 +33,7 @@ class _HomeTabState extends State<HomeTab> {
                         return Container(
                           height: 100,
                           decoration: BoxDecoration(
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               image: AssetImage("assets/images/image3.jpg"
                               ),
                               fit: BoxFit.fitWidth,

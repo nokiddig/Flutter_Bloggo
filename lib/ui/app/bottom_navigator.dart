@@ -28,7 +28,13 @@ class _BottomNavigatorState extends State<BottomNavigator> {
           actions: [
             CircleAvatar(
               backgroundColor: COLOR_CONST.GRAY7,
-              child: IconButton(onPressed: (){},
+              child: IconButton(
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: CustomSearch(),
+                  );
+                },
                 icon: Icon(Icons.search),
                 color: Colors.black,
               ),
@@ -46,11 +52,14 @@ class _BottomNavigatorState extends State<BottomNavigator> {
           items: [
             bottomNavItem("Home", Icons.home_outlined, Icons.home),
             bottomNavItem("Category", Icons.category_outlined, Icons.category),
-            bottomNavItem("Notifications", Icons.notification_important_outlined, Icons.notifications),
+            bottomNavItem("Notifications",
+                Icons.notification_important_outlined, Icons.notifications),
             bottomNavItem("Menu", Icons.menu, Icons.menu_open),
           ],
           onTap: (value) {
-            setState(() {_selectedIndex = value;});
+            setState(() {
+              _selectedIndex = value;
+            });
           },
           selectedItemColor: Colors.amber[800],
         ),
@@ -58,13 +67,38 @@ class _BottomNavigatorState extends State<BottomNavigator> {
     );
   }
 
-  BottomNavigationBarItem bottomNavItem(String label, IconData icon, IconData iconActive){
+  BottomNavigationBarItem bottomNavItem(
+      String label, IconData icon, IconData iconActive) {
     return BottomNavigationBarItem(
-      icon: Icon(icon),
-      label: label,
-      backgroundColor: COLOR_CONST.BLUE,
-      activeIcon: Icon(iconActive)
-    );
+        icon: Icon(icon),
+        label: label,
+        backgroundColor: COLOR_CONST.BLUE,
+        activeIcon: Icon(iconActive));
   }
 }
 
+class CustomSearch extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [IconButton(onPressed: () {
+      this.query = '';
+    }, icon: Icon(Icons.clear))];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(onPressed: () {
+      close(context, null);
+    }, icon: Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Text("data");
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Text("data");
+  }
+}
