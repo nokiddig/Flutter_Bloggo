@@ -1,10 +1,10 @@
 import 'package:blog_app/services/save_account.dart';
-import 'package:blog_app/ui/screen/bottom_navigator.dart';
-import 'package:blog_app/ui/screen/signup_screen.dart';
+import 'package:blog_app/ui/app/bottom_navigator.dart';
+import 'package:blog_app/ui/screen/login/signup_screen.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
-import '../../services/firebase_authentication.dart';
+import '../../../services/firebase_authentication.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);

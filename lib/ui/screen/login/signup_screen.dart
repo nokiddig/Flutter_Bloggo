@@ -3,7 +3,7 @@ import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/account.dart';
+import '../../../model/account.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -146,6 +146,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void registerAccount(String email, String password, String name) {
     AccountViewModel viewModel = AccountViewModel();
-    viewModel.addAccount(Account.clone(email, name));
+    viewModel.add(Account.clone(email, name));
   }
 }

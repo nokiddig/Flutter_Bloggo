@@ -1,16 +1,16 @@
 import 'package:blog_app/services/save_account.dart';
-import 'package:blog_app/ui/screen/signin_screen.dart';
+import 'package:blog_app/ui/screen/login/signin_screen.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
-class LogoScreen extends StatefulWidget {
-  const LogoScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<LogoScreen> createState() => _LogoScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _LogoScreenState extends State<LogoScreen> with SingleTickerProviderStateMixin  {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin  {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -41,23 +41,24 @@ class _LogoScreenState extends State<LogoScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (BuildContext context, Widget? child) {
-            if (_animation.isCompleted) {
-              // Khi hoàn thành animation, thực hiện chuyển hướng
-              Future.delayed(Duration(milliseconds: 500), () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()),
-                );
-              });
-            }
-            return Image.asset(StringConst.IMAGE_LOGO,
-              height: _animation.value,
-            );
-        },
+    return Scaffold(
+      body: Center(
+        child: AnimatedBuilder(
+          animation: _animation,
+          builder: (BuildContext context, Widget? child) {
+              if (_animation.isCompleted) {
+                Future.delayed(Duration(milliseconds: 500), () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignInScreen()),
+                  );
+                });
+              }
+              return Image.asset(StringConst.IMAGE_LOGO_REMOVEBG,
+                height: _animation.value,
+              );
+          },
+        ),
       ),
     );
   }

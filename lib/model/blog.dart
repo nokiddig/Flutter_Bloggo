@@ -1,12 +1,15 @@
 class Blog{
-  int? _id;
+  String? _id;
   String _title = "";
   String _content = "";
   String _image = "";
 
-  int get id => _id ?? -1;
 
-  set id(int value) {
+  Blog(this._id, this._title, this._content, this._image);
+
+  String get id => _id ?? "";
+
+  set id(String value) {
     _id = value;
   }
 

@@ -1,4 +1,4 @@
-import 'package:blog_app/ui/screen/home_screen.dart';
+import 'package:blog_app/ui/screen/tab/home_tab.dart';
 import 'package:blog_app/utils/constain/color_const.dart';
 import 'package:flutter/material.dart';
 
@@ -11,24 +11,33 @@ class BottomNavigator extends StatefulWidget {
 
 class _BottomNavigatorState extends State<BottomNavigator> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    Text(
-      'Index 1: Business',
-    ),
-    Text(
-      'Index 2: School',
-    ),
-    Text(
-      'Index 2: School',
-    ),
+  String _title = "";
+  static List<Widget> _widgetOptions = <Widget>[
+    HomeTab(),
+    HomeTab(),
+    HomeTab(),
+    HomeTab(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: _widgetOptions[_selectedIndex],
+        appBar: AppBar(
+          title: Text(_title),
+          actions: [
+            CircleAvatar(
+              backgroundColor: COLOR_CONST.GRAY7,
+              child: IconButton(onPressed: (){},
+                icon: Icon(Icons.search),
+                color: Colors.black,
+              ),
+            )
+          ],
+        ),
+        body: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: _widgetOptions[_selectedIndex]),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.amber,
           iconSize: 20,
