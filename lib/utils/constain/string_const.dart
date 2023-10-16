@@ -6,5 +6,6 @@ class StringConst{
   static const String SAVE_PASS = "password";
   static const String SAVE_EMAIL = "email";
   static const String SAVE_ISCHECKED = "ischecked";
+  static const String IMAGE_DEFAULT = "assets/images/default.jpg";
 
 }

@@ -212,9 +212,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
 
     if (checkAccount == true) {
-      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-        return const BottomNavigator();
-      },),);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavigator(),));
     }
   }
 }

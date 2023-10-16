@@ -45,7 +45,9 @@ class BlogViewmodel extends ViewModel<Blog>{
         doc.id,
         data[ModelConst.FIELD_TITLE],
         data[ModelConst.FIELD_CONTENT],
-        data[ModelConst.FIELD_IMAGE]);
+        data[ModelConst.FIELD_IMAGE],
+        data[ModelConst.FIELD_EMAIL],
+    );
   }
 
   @override
@@ -57,7 +59,6 @@ class BlogViewmodel extends ViewModel<Blog>{
     return _firestore.collection(ModelConst.COLLECTION_BLOG).snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         Blog blog = fromFirestore(doc);
-        print("tesst1441: ${blog.toString()}");
         return blog;
       }
       ).toList();

@@ -1,4 +1,7 @@
 import 'package:blog_app/model/blog.dart';
+import 'package:blog_app/ui/screen/blog_detail.dart';
+import 'package:blog_app/utils/constain/font_const.dart';
+import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +32,7 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 }
+
 class Highlight extends StatelessWidget {
   final BlogViewmodel viewmodel;
 
@@ -79,6 +83,7 @@ class NewFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String a = StringConst.IMAGE_DEFAULT;
     return StreamBuilder<List<Blog>>(
       stream: viewmodel.getAll(),
       builder: (context, snapshot) {
@@ -90,32 +95,52 @@ class NewFeed extends StatelessWidget {
               Blog blog = data[index];
               return Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 90,
-                        decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              image: AssetImage("assets/images/image3.jpg"
+                child: SizedBox(
+                  height: 70,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetail(blog: blog),));
+                    },
+                    child: Hero(
+                      tag: "blog-detail-${blog.id}",
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              padding: EdgeInsets.all(5),
+                              // height: 90,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(blog.image,),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)
                               ),
-                              fit: BoxFit.fill,
                             ),
-                            borderRadius: BorderRadius.circular(10)
-                        ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(blog.title, style: FONT_CONST.SEMIBOLD),
+                                    Text(blog.content, style: FONT_CONST.REGULAR_BLACK2,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              )
+                          )
+                        ],
                       ),
                     ),
-                    Expanded(
-                      flex: 2,
-                        child: Column(
-                          children: [
-                            Text(blog.title),
-                            Text(blog.content),
-                          ],
-                        )
-                    )
-                  ],
+                  ),
                 ),
               );
           },);

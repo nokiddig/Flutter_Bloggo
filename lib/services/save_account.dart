@@ -22,7 +22,6 @@ import 'package:shared_preferences/shared_preferences.dart';
     _email = await _preferences.getString(StringConst.SAVE_EMAIL);
     _pass = await _preferences.getString(StringConst.SAVE_PASS);
     _isCheckedSave = await _preferences.getBool(StringConst.SAVE_ISCHECKED);
-    print(toString());
   }
 
   void save(String email, String pass, bool isChecked) async {

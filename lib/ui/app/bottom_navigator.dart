@@ -2,6 +2,8 @@ import 'package:blog_app/ui/screen/tab/home_tab.dart';
 import 'package:blog_app/utils/constain/color_const.dart';
 import 'package:flutter/material.dart';
 
+import '../screen/tab/menu_tab.dart';
+
 class BottomNavigator extends StatefulWidget {
   const BottomNavigator({super.key});
 
@@ -16,7 +18,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
     HomeTab(),
     HomeTab(),
     HomeTab(),
-    HomeTab(),
+    MenuTab(),
   ];
 
   @override

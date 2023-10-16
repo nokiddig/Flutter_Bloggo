@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class ViewModel<T>{
-  T fromFirestore(DocumentSnapshot doc);
+  T fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc);
   Map<String, dynamic> convertToMap(T t);
   Future<void> add(T t);
   Stream<List<T>> getAll();

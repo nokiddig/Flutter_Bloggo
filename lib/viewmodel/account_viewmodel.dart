@@ -59,7 +59,7 @@ class AccountViewModel extends ViewModel<Account>{
   }
 
   @override
-  Account fromFirestore(DocumentSnapshot<Object?> doc) {
+  Account fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
     final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Account(
         data[ModelConst.FIELD_NAME],
@@ -67,5 +67,20 @@ class AccountViewModel extends ViewModel<Account>{
         data[ModelConst.FIELD_AVATAR],
         data[ModelConst.FIELD_STATUS],
         data[ModelConst.FIELD_GENDER]);
+  }
+
+  Future<Account?> getByEmail(String email) async {
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    try{
+      DocumentSnapshot<Map<String, dynamic>> accountSnapshot = await _firestore.collection(ModelConst
+        .COLLECTION_ACCOUNT).doc(email).get();
+      if (accountSnapshot.exists) {
+        return fromFirestore(accountSnapshot);
+      }
+    }
+    catch (e){
+      return null;
+    }
+    return null;
   }
 }
