@@ -1,9 +1,10 @@
 import 'package:blog_app/services/save_account.dart';
-import 'package:blog_app/ui/app/bottom_navigator.dart';
+import 'package:blog_app/ui/app/bottom_navigator_app.dart';
 import 'package:blog_app/ui/screen/login/signup_screen.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/account.dart';
 import '../../../services/firebase_authentication.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -200,6 +201,7 @@ class _SignInScreenState extends State<SignInScreen> {
               } else {
                 if (snapshot.data == true) {
                   checkAccount = true;
+                  Account.currentEmail = email;
                   Navigator.pop(context);
                   return const Text('Sign in successfully!');
                 } else {
@@ -213,7 +215,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
 
     if (checkAccount == true) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigator(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavigationApp(),));
     }
   }
 

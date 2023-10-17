@@ -1,7 +1,10 @@
 import 'package:blog_app/services/firebase_authentication.dart';
 import 'package:blog_app/ui/screen/login/signin_screen.dart';
+import 'package:blog_app/ui/screen/tab/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
+
+import '../../app/bottom_navigator_app.dart';
 
 class MenuTab extends StatefulWidget {
   const MenuTab({Key? key});
@@ -36,7 +39,10 @@ class _MenuTabState extends State<MenuTab> {
           style: ListTileStyle.drawer,
           leading: UIConst.ICON_PROFILE,
           title: Text(StringConst.PROFILE),
-          onTap: (){},
+          onTap: (){
+            Route route = MaterialPageRoute(builder: (context) => ProfileTab(),);
+            Navigator.push(context, route);
+          },
           trailing: Icon(Icons.navigate_next),
         ),
         UIConst.DIVIDER1,

@@ -6,24 +6,39 @@ import 'package:blog_app/utils/constain/font_const.dart';
 import 'package:flutter/material.dart';
 
 import '../screen/tab/menu_tab.dart';
+import '../screen/tab/profile_tab.dart';
 
-class BottomNavigator extends StatefulWidget {
-  const BottomNavigator({super.key});
+class BottomNavigationApp extends StatefulWidget {
+  BottomNavigationApp({super.key});
+  final GlobalKey<_BottomNavigationAppState> _stateKey = GlobalKey();
 
   @override
-  State<BottomNavigator> createState() => _BottomNavigatorState();
+  State<BottomNavigationApp> createState() => _BottomNavigationAppState();
+
+  void updateState(int index) {
+    _stateKey.currentState?.updateIndexView(index);
+  }
 }
 
-class _BottomNavigatorState extends State<BottomNavigator> {
+class _BottomNavigationAppState extends State<BottomNavigationApp> {
   int _selectedIndex = 0;
-  String _title = "Bloggo";
-  static List<Widget> _widgetOptions = <Widget>[
-    HomeTab(),
-    CategoryTab(),
-    NotificationTab(),
-    MenuTab(),
+  int _selectedView = 0;
+  final String _title = "Bloggo";
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomeTab(),
+    const CategoryTab(),
+    const NotificationTab(),
+    const MenuTab(),
+    const ProfileTab()
   ];
 
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
+
+  final GlobalKey<_BottomNavigationAppState> _stateKey = GlobalKey<_BottomNavigationAppState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,7 +63,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
         ),
         body: SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: _widgetOptions[_selectedIndex]),
+            child: _widgetOptions[_selectedView]),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.amber,
           iconSize: 20,
@@ -64,6 +79,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
           onTap: (value) {
             setState(() {
               _selectedIndex = value;
+              _selectedView = value;
             });
           },
           selectedItemColor: Colors.amber[800],
@@ -79,6 +95,12 @@ class _BottomNavigatorState extends State<BottomNavigator> {
         label: label,
         backgroundColor: COLOR_CONST.BLUE,
         activeIcon: Icon(iconActive));
+  }
+
+  void updateIndexView(int index) {
+    setState(() {
+      _selectedView = index;
+    });
   }
 }
 
