@@ -12,4 +12,11 @@ class UIConst{
 
   static const TextStyle TEXTSTYLE_WHITE = TextStyle(color: Colors.white);
   static const TextStyle TEXTSTYLE_BLACK = TextStyle(color: Colors.black);
+
+  static const Icon ICON_PROFILE = Icon(Icons.account_circle_outlined);
+  static const Icon ICON_SAVE = Icon(Icons.bookmark_border);
+  static const Icon ICON_LOGOUT = Icon(Icons.logout);
+
+
+
 }

@@ -1,4 +1,4 @@
-import 'package:blog_app/utils/constains/string_const.dart';
+import 'package:blog_app/utils/constain/string_const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
  class  SaveAccount {
@@ -22,7 +22,6 @@ import 'package:shared_preferences/shared_preferences.dart';
     _email = await _preferences.getString(StringConst.SAVE_EMAIL);
     _pass = await _preferences.getString(StringConst.SAVE_PASS);
     _isCheckedSave = await _preferences.getBool(StringConst.SAVE_ISCHECKED);
-    print(toString());
   }
 
   void save(String email, String pass, bool isChecked) async {
