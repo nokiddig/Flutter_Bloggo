@@ -143,7 +143,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                               ),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    forgotPassword();                                  },
                                   child: const Text(
                                     'Forgot Password',
                                     style: TextStyle(
@@ -212,7 +213,23 @@ class _SignInScreenState extends State<SignInScreen> {
     );
 
     if (checkAccount == true) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavigator(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigator(),));
     }
+  }
+
+  void forgotPassword() {
+    String _email = _emailController.text;
+    sendPasswordResetEmail(_email);
+    showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text("Reset Password"),
+        content: Text("Reset Password sent successfully!"),
+        actions: [
+          ElevatedButton(onPressed: (){
+            Navigator.pop(context);
+          }, child: Text("Ok"))
+        ],
+      );
+    },);
   }
 }

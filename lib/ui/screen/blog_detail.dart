@@ -29,39 +29,51 @@ class _BlogDetailState extends State<BlogDetail> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       String? avatar = snapshot.data?.avatarPath;
+                      String? name = snapshot.data?.name;
+                      String? email = snapshot.data?.email;
                       return SingleChildScrollView(
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            CircleAvatar(
-                              child: ClipOval(
-                                child: Image.network(
-                                  avatar ?? "",
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Image.asset(
-                                    StringConst.IMAGE_DEFAULT,
+                            Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: CircleAvatar(
+                                child: ClipOval(
+                                  child: Image.network(
+                                    avatar ?? "",
+                                    errorBuilder: (context, error, stackTrace) =>
+                                        Image.asset(
+                                      StringConst.IMAGE_DEFAULT,
+                                    ),
+                                    width: 200,
+                                    height: 200,
+                                    fit: BoxFit.cover,
                                   ),
-                                  width: 200,
-                                  height: 200,
-                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                            Stack(
-                              children: [
-
-                              ],
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              width: 200,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(name ?? "name"),
+                                  Text(email ?? "email"),
+                                ],
+                              ),
                             )
                           ],
                         ),
                       );
                     }
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   },
                 ),
                 Image.network(widget.blog.image),
-                Text(widget.blog.title, style: FONT_CONST.SATURDAY),
-                Text(widget.blog.content, style: FONT_CONST.NEXT_SUNDAY),
+                Text(widget.blog.title, style: FONT_CONST.TITLE_BLOG),
+                Text(widget.blog.content, style: FONT_CONST.CONTENT_BLOG,
+                ),
               ],
             ),
           ),

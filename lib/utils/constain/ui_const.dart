@@ -16,7 +16,8 @@ class UIConst{
   static const Icon ICON_PROFILE = Icon(Icons.account_circle_outlined);
   static const Icon ICON_SAVE = Icon(Icons.bookmark_border);
   static const Icon ICON_LOGOUT = Icon(Icons.logout);
-
+  static const Icon ICON_DARKMODE = Icon(Icons.nightlight_outlined);
+  static const Divider DIVIDER1 =  Divider(height: 1);
 
 
 }

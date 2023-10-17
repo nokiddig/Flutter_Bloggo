@@ -35,3 +35,12 @@ Future<bool> signOut() async {
   }
   return true;
 }
+
+Future<bool> sendPasswordResetEmail(String email) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}

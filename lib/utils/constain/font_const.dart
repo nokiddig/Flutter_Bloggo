@@ -30,7 +30,7 @@ class FONT_CONST {
       fontSize: 40,
       fontWeight: FontWeight.bold,
       fontStyle: FontStyle.italic,
-      color: COLOR_CONST.BLUE_DARK,
+      color: Colors.deepPurple,
       shadows: const [
         Shadow(
           offset: Offset(2.0, 2.0), // Độ lệch theo trục x và y

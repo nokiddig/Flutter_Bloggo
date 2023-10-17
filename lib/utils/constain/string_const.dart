@@ -7,5 +7,9 @@ class StringConst{
   static const String SAVE_EMAIL = "email";
   static const String SAVE_ISCHECKED = "ischecked";
   static const String IMAGE_DEFAULT = "assets/images/default.jpg";
+  static const String LOGOUT = "Logout";
+  static const String PROFILE = "Profile";
+  static const String SAVED = "Saved";
+  static const String DARKMODE = "DarkMode";
 
 }
