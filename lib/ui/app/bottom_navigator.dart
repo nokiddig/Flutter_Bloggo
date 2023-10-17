@@ -1,5 +1,8 @@
+import 'package:blog_app/ui/screen/tab/category_tab.dart';
 import 'package:blog_app/ui/screen/tab/home_tab.dart';
+import 'package:blog_app/ui/screen/tab/notification_tab.dart';
 import 'package:blog_app/utils/constain/color_const.dart';
+import 'package:blog_app/utils/constain/font_const.dart';
 import 'package:flutter/material.dart';
 
 import '../screen/tab/menu_tab.dart';
@@ -13,11 +16,11 @@ class BottomNavigator extends StatefulWidget {
 
 class _BottomNavigatorState extends State<BottomNavigator> {
   int _selectedIndex = 0;
-  String _title = "";
+  String _title = "Bloggo";
   static List<Widget> _widgetOptions = <Widget>[
     HomeTab(),
-    HomeTab(),
-    HomeTab(),
+    CategoryTab(),
+    NotificationTab(),
     MenuTab(),
   ];
 
@@ -26,7 +29,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_title),
+          title: Text(_title, style: FONT_CONST.FONT_APP,),
           actions: [
             CircleAvatar(
               backgroundColor: COLOR_CONST.GRAY7,

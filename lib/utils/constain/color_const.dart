@@ -11,6 +11,7 @@ class COLOR_CONST {
   static final HexColor DEFAULT_5 = new HexColor("#0DE81667");
   static final HexColor RED = new HexColor("#F93F3E");
   static final HexColor RED2 = new HexColor("#D05045");
+  static final HexColor BLUE_DARK = new HexColor("#00023D");
   static final HexColor GREEN = new HexColor("#2EC492");
   static final HexColor GREEN2 = new HexColor("#8CC153");
   static final HexColor ORANGE = new HexColor("#EB8D2F");

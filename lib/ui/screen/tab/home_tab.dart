@@ -4,6 +4,7 @@ import 'package:blog_app/utils/constain/font_const.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({Key? key});
@@ -20,10 +21,18 @@ class _HomeTabState extends State<HomeTab> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
+          Container(
+              height: 150,
+              child: Center(child: Lottie.network("https://lottie.host/a7ff454c-f78a-41d1-a71f-a43277f5494e/o55QYBhiwd.json"))),
+          Text("Highlight", style: FONT_CONST.SESSION,),
           Expanded(
             flex: 1,
               child: Highlight(viewmodel: viewmodel,)),
+          Text("Feed", style: FONT_CONST.SESSION,),
           Expanded(
               flex: 3,
               child: NewFeed(viewmodel: viewmodel))
@@ -47,19 +56,27 @@ class Highlight extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
+              scrollDirection: Axis.horizontal,
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 Blog blog = snapshot.data![index];
-                return Container(
-                  height: 100,
-                  decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/image3.jpg"
-                        ),
-                        fit: BoxFit.fitWidth,
+                return Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 10),
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(blog.image,
+                            ),
+                            fit: BoxFit.cover,
+                            opacity: 0.9
+                            ),
+                          borderRadius: BorderRadius.circular(10)
                       ),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
+                    ),
+                  ]
                 );
               },
             );
@@ -104,6 +121,7 @@ class NewFeed extends StatelessWidget {
                     child: Hero(
                       tag: "blog-detail-${blog.id}",
                       child: Row(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
                             flex: 1,
@@ -123,17 +141,19 @@ class NewFeed extends StatelessWidget {
                             flex: 2,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(blog.title, style: FONT_CONST.SEMIBOLD),
-                                    Text(blog.content, style: FONT_CONST.REGULAR_BLACK2,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(blog.title, style: FONT_CONST.TITLE_BLOG),
+                                      Text(blog.content, style: FONT_CONST.CONTENT_BLOG,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               )
                           )

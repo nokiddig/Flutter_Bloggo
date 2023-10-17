@@ -10,6 +10,6 @@ class NotificationTab extends StatefulWidget {
 class _NotificationTabState extends State<NotificationTab> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Text("const Placeholder()");
   }
 }
