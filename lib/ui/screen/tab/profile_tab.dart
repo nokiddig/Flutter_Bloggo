@@ -1,57 +1,129 @@
+import 'package:blog_app/ui/screen/blog/blog_detail.dart';
+import 'package:blog_app/ui/screen/blog/create_blog.dart';
+import 'package:blog_app/utils/constain/my_const.dart';
+import 'package:blog_app/viewmodel/account_viewmodel.dart';
+import 'package:blog_app/viewmodel/blog_viewmodel.dart';
 import 'package:flutter/material.dart';
 
-class ProfileTab extends StatelessWidget {
-  const ProfileTab({Key? key}) : super(key: key);
+import '../../../model/account.dart';
+import '../../../model/blog.dart';
+
+class ProfileTab extends StatefulWidget {
+  ProfileTab({super.key, required this.email});
+  String email = "";
+  @override
+  State<ProfileTab> createState() => _ProfileTabState();
+}
+
+class _ProfileTabState extends State<ProfileTab> {
+  AccountViewModel accountViewModel = AccountViewModel();
+  BlogViewmodel blogViewModel = BlogViewmodel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Column(
+      body: Stack(
         children: [
-          const Expanded(flex: 2, child: _TopPortion()),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text(
-                    "Richie Lorie",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              FutureBuilder(
+                future: accountViewModel.getByEmail(widget.email),
+                builder: (context, snapshot) {
+                  return Column(
                     children: [
-                      FloatingActionButton.extended(
-                        onPressed: () {},
-                        heroTag: 'follow',
-                        elevation: 0,
-                        label: const Text("Follow"),
-                        icon: const Icon(Icons.person_add_alt_1),
-                      ),
-                      const SizedBox(width: 16.0),
-                      FloatingActionButton.extended(
-                        onPressed: () {},
-                        heroTag: 'mesage',
-                        elevation: 0,
-                        backgroundColor: Colors.red,
-                        label: const Text("Message"),
-                        icon: const Icon(Icons.message_rounded),
+                      Container(height: 200, child: _TopPortion(snapshot.data)),
+                      Container(
+                        height: 250,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                snapshot.data?.name ?? "Richie Lorie",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FloatingActionButton.extended(
+                                    onPressed: () {},
+                                    elevation: 0,
+                                    label: const Text("Follow"),
+                                    icon: const Icon(Icons.person_add_alt_1),
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  FloatingActionButton.extended(
+                                    onPressed: () {},
+                                    heroTag: 'mesage',
+                                    elevation: 0,
+                                    backgroundColor: Colors.red,
+                                    label: const Text("Block"),
+                                    icon: const Icon(Icons.block),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              const _ProfileInfoRow()
+                            ],
+                          ),
+                        ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 16),
-                  const _ProfileInfoRow()
-                ],
+                  );
+                }
               ),
+              FutureBuilder(
+                  future: blogViewModel.getPostsByEmail(widget.email), builder: (context, snapshot) {
+                    List<Blog> blogs = snapshot.data ?? [];
+                    return ListView.builder(
+                      shrinkWrap: true, // Set this to true
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: blogs.length,
+                        itemBuilder: (context, index) {
+                          return ABlogDetail(blogs[index]);
+                        },
+                    );
+                  },)
+            ],
+          ),
+        ),
+          Positioned(
+            top: 16,
+            left: 10,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              color: Colors.white,
+            ),
+          ),
+          Positioned(
+            top: 16,
+            right: 10,
+            child: IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+              },
+              color: Colors.white,
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Route route = MaterialPageRoute(builder: (context) => CreateBlog(),);
+          Navigator.push(context, route);
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.white,
+        shape: CircleBorder(),
       ),
     );
   }
@@ -114,14 +186,16 @@ class ProfileInfoItem {
 }
 
 class _TopPortion extends StatelessWidget {
-  const _TopPortion({Key? key}) : super(key: key);
+  Account? account;
+  AccountViewModel viewModel = AccountViewModel();
+
+  _TopPortion(Account? this.account, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
       children: [
-
         Container(
           margin: const EdgeInsets.only(bottom: 50),
           decoration: const BoxDecoration(
@@ -143,42 +217,19 @@ class _TopPortion extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
-                        )
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              account?.avatarPath ?? STRING_CONST.NETWORKIMAGE_DEFAULT
+                          )
+                      ),
                     ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    child: Container(
-                      margin: const EdgeInsets.all(8.0),
-                      decoration: const BoxDecoration(
-                          color: Colors.green, shape: BoxShape.circle),
-                    ),
-                  ),
                 ),
               ],
             ),
-          ),
-        ),
-        Positioned(
-          top: 16,
-          left: 16,
-          child: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
           ),
         ),
       ],

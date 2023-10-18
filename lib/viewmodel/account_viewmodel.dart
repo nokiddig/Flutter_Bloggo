@@ -18,7 +18,7 @@ class AccountViewModel extends ViewModel<Account>{
   @override
   Future<void> add(Account account)async{
     try {
-      await _firestore.collection(ModelConst.COLLECTION_ACCOUNT).doc(account.email)
+      await _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).doc(account.email)
           .set(convertToMap(account));
     } catch (e) {
       print('Error: $e');
@@ -26,11 +26,11 @@ class AccountViewModel extends ViewModel<Account>{
   }
 
   Stream<List<Account>> getAll() {
-    Stream<QuerySnapshot<Map<String, dynamic>>> snapshot = _firestore.collection(ModelConst.COLLECTION_ACCOUNT).snapshots();
+    Stream<QuerySnapshot<Map<String, dynamic>>> snapshot = _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).snapshots();
     if (snapshot.isEmpty == true) {
 
     }
-    return _firestore.collection(ModelConst.COLLECTION_ACCOUNT).snapshots().map((snapshot) {
+    return _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         Account user = Account.fromFirestore(doc);
         return user;
@@ -40,21 +40,21 @@ class AccountViewModel extends ViewModel<Account>{
   }
 
   Future<void> delete(String email) async {
-    await _firestore.collection(ModelConst.COLLECTION_ACCOUNT).doc(email).delete();
+    await _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).doc(email).delete();
   }
 
   Future<void> edit(Account account) async {
-    await _firestore.collection(ModelConst.COLLECTION_ACCOUNT).doc(account.email)
+    await _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).doc(account.email)
         .set(convertToMap(account));
   }
 
   @override
   Map<String, dynamic> convertToMap(Account account){
     return {
-      ModelConst.FIELD_AVATAR: account.avatarPath,
-      ModelConst.FIELD_NAME: account.name,
-      ModelConst.FIELD_GENDER: account.gender,
-      ModelConst.FIELD_STATUS: account.status,
+      MODEL_CONST.FIELD_AVATAR: account.avatarPath,
+      MODEL_CONST.FIELD_NAME: account.name,
+      MODEL_CONST.FIELD_GENDER: account.gender,
+      MODEL_CONST.FIELD_STATUS: account.status,
     };
   }
 
@@ -62,17 +62,17 @@ class AccountViewModel extends ViewModel<Account>{
   Account fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
     final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Account(
-        data[ModelConst.FIELD_NAME],
+        data[MODEL_CONST.FIELD_NAME],
         doc.id,
-        data[ModelConst.FIELD_AVATAR],
-        data[ModelConst.FIELD_STATUS],
-        data[ModelConst.FIELD_GENDER]);
+        data[MODEL_CONST.FIELD_AVATAR],
+        data[MODEL_CONST.FIELD_STATUS],
+        data[MODEL_CONST.FIELD_GENDER]);
   }
 
   Future<Account?> getByEmail(String email) async {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
     try{
-      DocumentSnapshot<Map<String, dynamic>> accountSnapshot = await _firestore.collection(ModelConst
+      DocumentSnapshot<Map<String, dynamic>> accountSnapshot = await _firestore.collection(MODEL_CONST
         .COLLECTION_ACCOUNT).doc(email).get();
       if (accountSnapshot.exists) {
         return fromFirestore(accountSnapshot);

@@ -1,5 +1,5 @@
 import 'package:blog_app/model/blog.dart';
-import 'package:blog_app/ui/screen/blog_detail.dart';
+import 'package:blog_app/ui/screen/blog/blog_detail.dart';
 import 'package:blog_app/utils/constain/font_const.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
@@ -100,7 +100,7 @@ class NewFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String a = StringConst.IMAGE_DEFAULT;
+    String a = STRING_CONST.IMAGE_DEFAULT;
     return StreamBuilder<List<Blog>>(
       stream: viewmodel.getAll(),
       builder: (context, snapshot) {

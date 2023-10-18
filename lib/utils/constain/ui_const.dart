@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class UIConst{
+class UI_CONST{
   static const SizedBox SIZEDBOX10 = SizedBox(height: 10);
   static const SizedBox SIZEDBOX15 = SizedBox(height: 15);
   static const SizedBox SIZEDBOX20 = SizedBox(height: 20);

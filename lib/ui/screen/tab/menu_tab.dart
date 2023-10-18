@@ -4,6 +4,7 @@ import 'package:blog_app/ui/screen/tab/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/account.dart';
 import '../../app/bottom_navigator_app.dart';
 
 class MenuTab extends StatefulWidget {
@@ -21,10 +22,10 @@ class _MenuTabState extends State<MenuTab> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        UIConst.DIVIDER1,
+        UI_CONST.DIVIDER1,
         ListTile(
-          leading: UIConst.ICON_DARKMODE,
-          title: Text(StringConst.DARKMODE),
+          leading: UI_CONST.ICON_DARKMODE,
+          title: Text(STRING_CONST.DARKMODE),
           onTap: (){},
           trailing: Switch(
             value: _isDark,
@@ -34,42 +35,42 @@ class _MenuTabState extends State<MenuTab> {
               });
             },),
         ),
-        UIConst.DIVIDER1,
+        UI_CONST.DIVIDER1,
         ListTile(
           style: ListTileStyle.drawer,
-          leading: UIConst.ICON_PROFILE,
-          title: Text(StringConst.PROFILE),
+          leading: UI_CONST.ICON_PROFILE,
+          title: Text(STRING_CONST.PROFILE),
           onTap: (){
-            Route route = MaterialPageRoute(builder: (context) => ProfileTab(),);
+            Route route = MaterialPageRoute(builder: (context) => ProfileTab(email: Account.currentEmail,),);
             Navigator.push(context, route);
           },
           trailing: Icon(Icons.navigate_next),
         ),
-        UIConst.DIVIDER1,
+        UI_CONST.DIVIDER1,
         ListTile(
-          leading: UIConst.ICON_SAVE,
-          title: Text(StringConst.SAVED),
+          leading: UI_CONST.ICON_SAVE,
+          title: Text(STRING_CONST.SAVED),
           onTap: (){},
           trailing: Icon(Icons.navigate_next),
         ),
-        UIConst.DIVIDER1,
+        UI_CONST.DIVIDER1,
         ListTile(
           leading: Icon(Icons.account_circle_outlined),
-          title: Text(StringConst.PROFILE),
+          title: Text(STRING_CONST.PROFILE),
           onTap: (){},
           trailing: Icon(Icons.navigate_next),
         ),
-        UIConst.DIVIDER1,
+        UI_CONST.DIVIDER1,
         ListTile(
-          leading: UIConst.ICON_LOGOUT,
-          title: Text(StringConst.LOGOUT),
+          leading: UI_CONST.ICON_LOGOUT,
+          title: Text(STRING_CONST.LOGOUT),
           onTap: (){
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen()));
             // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SignInScreen(),), (route) => true,);
             signOut();
           },
         ),
-        UIConst.DIVIDER1,
+        UI_CONST.DIVIDER1,
 
       ],
     );

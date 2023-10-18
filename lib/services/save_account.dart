@@ -19,15 +19,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
   Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
-    _email = await _preferences.getString(StringConst.SAVE_EMAIL);
-    _pass = await _preferences.getString(StringConst.SAVE_PASS);
-    _isCheckedSave = await _preferences.getBool(StringConst.SAVE_ISCHECKED);
+    _email = await _preferences.getString(STRING_CONST.SAVE_EMAIL);
+    _pass = await _preferences.getString(STRING_CONST.SAVE_PASS);
+    _isCheckedSave = await _preferences.getBool(STRING_CONST.SAVE_ISCHECKED);
   }
 
   void save(String email, String pass, bool isChecked) async {
-    await _preferences.setString(StringConst.SAVE_EMAIL, email);
-    await _preferences.setString(StringConst.SAVE_PASS, pass);
-    await _preferences.setBool(StringConst.SAVE_ISCHECKED, isChecked);
+    await _preferences.setString(STRING_CONST.SAVE_EMAIL, email);
+    await _preferences.setString(STRING_CONST.SAVE_PASS, pass);
+    await _preferences.setBool(STRING_CONST.SAVE_ISCHECKED, isChecked);
   }
 
   void clear() {

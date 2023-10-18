@@ -33,7 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage(StringConst.IMAGE_SIGNIN), fit: BoxFit.fill),
+            image: AssetImage(STRING_CONST.IMAGE_SIGNIN), fit: BoxFit.fill),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -62,7 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         children: [
                           TextField(
                             controller: _emailController,
-                            style: UIConst.TEXTSTYLE_BLACK,
+                            style: UI_CONST.TEXTSTYLE_BLACK,
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
                                 filled: true,
@@ -72,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                             )
                           ),
-                          UIConst.SIZEDBOX30,
+                          UI_CONST.SIZEDBOX30,
                           TextField(
                             controller: _passwordController,
                             obscureText: true,
@@ -85,12 +85,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                             )
                           ),
-                          UIConst.SIZEDBOX35,
+                          UI_CONST.SIZEDBOX35,
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Text("Remember me",
-                                style: UIConst.TEXTSTYLE_BLACK,),
+                                style: UI_CONST.TEXTSTYLE_BLACK,),
                               Checkbox(
                                 value: _isCheckedSave,
                                 onChanged: (value) {
@@ -123,7 +123,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               )
                             ],
                           ),
-                          UIConst.SIZEDBOX35,
+                          UI_CONST.SIZEDBOX35,
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

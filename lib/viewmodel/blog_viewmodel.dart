@@ -43,20 +43,20 @@ class BlogViewmodel extends ViewModel<Blog>{
     final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Blog(
         doc.id,
-        data[ModelConst.FIELD_TITLE],
-        data[ModelConst.FIELD_CONTENT],
-        data[ModelConst.FIELD_IMAGE],
-        data[ModelConst.FIELD_EMAIL],
+        data[MODEL_CONST.FIELD_TITLE],
+        data[MODEL_CONST.FIELD_CONTENT],
+        data[MODEL_CONST.FIELD_IMAGE],
+        data[MODEL_CONST.FIELD_EMAIL],
     );
   }
 
   @override
   Stream<List<Blog>> getAll() {
-    Stream<QuerySnapshot<Map<String, dynamic>>> snapshot = _firestore.collection(ModelConst.COLLECTION_BLOG).snapshots();
+    Stream<QuerySnapshot<Map<String, dynamic>>> snapshot = _firestore.collection(MODEL_CONST.COLLECTION_BLOG).snapshots();
     if (snapshot.isEmpty == true) {
 
     }
-    return _firestore.collection(ModelConst.COLLECTION_BLOG).snapshots().map((snapshot) {
+    return _firestore.collection(MODEL_CONST.COLLECTION_BLOG).snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         Blog blog = fromFirestore(doc);
         return blog;
@@ -64,5 +64,14 @@ class BlogViewmodel extends ViewModel<Blog>{
       ).toList();
     });
   }
-  
+
+  Future<List<Blog>> getPostsByEmail(String email) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(MODEL_CONST.COLLECTION_BLOG)
+        .where(MODEL_CONST.FIELD_EMAIL, isEqualTo: email)
+        .get();
+    List<Blog> result = [];
+    querySnapshot.docs.forEach((element) {result.add(fromFirestore(element));});
+    return result;
+  }
 }

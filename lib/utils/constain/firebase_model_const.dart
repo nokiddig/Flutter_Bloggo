@@ -1,4 +1,4 @@
-class ModelConst{
+class MODEL_CONST{
   static const String COLLECTION_ACCOUNT = "account";
   static const String COLLECTION_BLOG = "blog";
   static const String COLLECTION_CATEGORY = "category";

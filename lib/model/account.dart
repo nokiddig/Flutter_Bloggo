@@ -5,7 +5,7 @@ class Account {
   static String currentEmail = "";
   String _name = "";
   String _email = "";
-  String? _avatarPath;
+  String _avatarPath = "";
   bool _status = true;
   int _gender = 0;
 
@@ -17,11 +17,11 @@ class Account {
   factory Account.fromFirestore(DocumentSnapshot doc) {
     final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Account(
-        data[ModelConst.FIELD_NAME],
+        data[MODEL_CONST.FIELD_NAME],
         doc.id,
-        data[ModelConst.FIELD_AVATAR],
-        data[ModelConst.FIELD_STATUS],
-        data[ModelConst.FIELD_GENDER]);
+        data[MODEL_CONST.FIELD_AVATAR],
+        data[MODEL_CONST.FIELD_STATUS],
+        data[MODEL_CONST.FIELD_GENDER]);
   }
 
   int get gender => _gender;
@@ -36,7 +36,7 @@ class Account {
     _status = value;
   }
 
-  String get avatarPath => _avatarPath ?? "";
+  String get avatarPath => _avatarPath;
 
   set avatarPath(String value) {
     _avatarPath = value;

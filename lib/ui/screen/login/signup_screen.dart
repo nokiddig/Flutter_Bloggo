@@ -21,7 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage(StringConst.IMAGE_SIGNUP), fit: BoxFit.fill),
+            image: AssetImage(STRING_CONST.IMAGE_SIGNUP), fit: BoxFit.fill),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -41,12 +41,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: TextStyle(color: Colors.white, fontSize: 33),
                 ),
               ),
-              UIConst.SIZEDBOX35,
+              UI_CONST.SIZEDBOX35,
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
                     hintText: "Name",
-                    hintStyle: UIConst.TEXTSTYLE_WHITE,
+                    hintStyle: UI_CONST.TEXTSTYLE_WHITE,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(
@@ -54,12 +54,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     )),
               ),
-              UIConst.SIZEDBOX25,
+              UI_CONST.SIZEDBOX25,
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
                     hintText: "Email",
-                    hintStyle: UIConst.TEXTSTYLE_WHITE,
+                    hintStyle: UI_CONST.TEXTSTYLE_WHITE,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(
@@ -67,13 +67,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     )),
               ),
-              UIConst.SIZEDBOX25,
+              UI_CONST.SIZEDBOX25,
               TextFormField(
                 controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                     hintText: "Password",
-                    hintStyle: UIConst.TEXTSTYLE_WHITE,
+                    hintStyle: UI_CONST.TEXTSTYLE_WHITE,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(
@@ -81,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     )),
               ),
-              UIConst.SIZEDBOX35,
+              UI_CONST.SIZEDBOX35,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -147,5 +147,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void registerAccount(String email, String password, String name) {
     AccountViewModel viewModel = AccountViewModel();
     viewModel.add(Account.clone(email, name));
+
   }
 }

@@ -29,7 +29,6 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
     const CategoryTab(),
     const NotificationTab(),
     const MenuTab(),
-    const ProfileTab()
   ];
 
   @override

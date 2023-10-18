@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   );
                 });
               }
-              return Image.asset(StringConst.IMAGE_LOGO_REMOVEBG,
+              return Image.asset(STRING_CONST.IMAGE_LOGO_REMOVEBG,
                 height: _animation.value,
               );
           },
