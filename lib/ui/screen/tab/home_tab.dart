@@ -76,6 +76,30 @@ class Highlight extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10)
                       ),
                     ),
+                    Positioned(
+                      bottom: 10,
+                        left: 5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white.withOpacity(0.8),
+                            boxShadow:  [BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 3,
+                              blurRadius: 5,
+                              offset: Offset(0, 3), // changes position of shadow
+                            )]
+                          ),
+                          //color: Colors.white,
+                          width: 80,
+                            child: Text(blog.title,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                              ),
+                              
+                            )
+                        )
+                    )
                   ]
                 );
               },

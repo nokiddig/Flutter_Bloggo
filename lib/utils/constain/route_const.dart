@@ -1,5 +1,5 @@
 
-import 'package:blog_app/ui/app/bottom_navigator_app.dart';
+import 'package:blog_app/ui/app/bottom_navigation_app.dart';
 import 'package:blog_app/ui/screen/login/signin_screen.dart';
 import 'package:blog_app/ui/screen/tab/home_tab.dart';
 import 'package:flutter/cupertino.dart';

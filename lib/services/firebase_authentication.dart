@@ -44,3 +44,13 @@ Future<bool> sendPasswordResetEmail(String email) async {
   }
   return true;
 }
+
+Future<String?> getUserEmail() async {
+  String? userEmail;
+  try {
+     userEmail = await FirebaseAuth.instance.currentUser?.email;
+     return userEmail;
+  } catch (e) {
+    return null;
+  }
+}

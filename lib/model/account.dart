@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../utils/constain/my_const.dart';
 
 class Account {
-  static String currentEmail = "";
   String _name = "";
   String _email = "";
   String _avatarPath = "";

@@ -89,7 +89,8 @@ class _ProfileTabState extends State<ProfileTab> {
                           return ABlogDetail(blogs[index]);
                         },
                     );
-                  },)
+                  },),
+              //StreamBuilder(stream: stream, builder: builder)
             ],
           ),
         ),

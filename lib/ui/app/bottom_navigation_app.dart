@@ -43,7 +43,7 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_title, style: FONT_CONST.FONT_APP,),
+          title:  Text(_title, style: FONT_CONST.FONT_APP,),
           actions: [
             CircleAvatar(
               backgroundColor: COLOR_CONST.GRAY7,

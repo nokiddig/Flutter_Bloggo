@@ -1,11 +1,12 @@
 import 'package:blog_app/services/firebase_authentication.dart';
+import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/login/signin_screen.dart';
 import 'package:blog_app/ui/screen/tab/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/account.dart';
-import '../../app/bottom_navigator_app.dart';
+import '../../app/bottom_navigation_app.dart';
 
 class MenuTab extends StatefulWidget {
   const MenuTab({Key? key});
@@ -41,7 +42,7 @@ class _MenuTabState extends State<MenuTab> {
           leading: UI_CONST.ICON_PROFILE,
           title: Text(STRING_CONST.PROFILE),
           onTap: (){
-            Route route = MaterialPageRoute(builder: (context) => ProfileTab(email: Account.currentEmail,),);
+            Route route = MaterialPageRoute(builder: (context) => ProfileTab(email: SaveAccount.currentEmail?? "email"),);
             Navigator.push(context, route);
           },
           trailing: Icon(Icons.navigate_next),

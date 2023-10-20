@@ -1,4 +1,5 @@
 import 'package:blog_app/services/save_account.dart';
+import 'package:blog_app/ui/app/bottom_navigation_app.dart';
 import 'package:blog_app/ui/screen/login/signin_screen.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
@@ -48,10 +49,19 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           builder: (BuildContext context, Widget? child) {
               if (_animation.isCompleted) {
                 Future.delayed(Duration(milliseconds: 500), () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignInScreen()),
-                  );
+                  if (SaveAccount.currentEmail != null){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => BottomNavigationApp()),
+                    );
+                  }
+                  else {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInScreen()),
+                    );
+                  }
+
                 });
               }
               return Image.asset(STRING_CONST.IMAGE_LOGO_REMOVEBG,

@@ -1,7 +1,9 @@
+import 'package:blog_app/services/firebase_authentication.dart';
 import 'package:blog_app/utils/constain/string_const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
  class  SaveAccount {
+  static String? currentEmail;
   String? _email;
   String? _pass;
   bool? _isCheckedSave;
@@ -22,6 +24,7 @@ import 'package:shared_preferences/shared_preferences.dart';
     _email = await _preferences.getString(STRING_CONST.SAVE_EMAIL);
     _pass = await _preferences.getString(STRING_CONST.SAVE_PASS);
     _isCheckedSave = await _preferences.getBool(STRING_CONST.SAVE_ISCHECKED);
+    currentEmail = await getUserEmail();
   }
 
   void save(String email, String pass, bool isChecked) async {
@@ -48,7 +51,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
   @override
   String toString() {
-    // TODO: implement toString
     return "info1252: ${_email} - ${_pass} - ${_isCheckedSave}";
   }
 }

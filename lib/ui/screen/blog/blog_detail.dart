@@ -35,6 +35,7 @@ class ABlogDetail extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            UI_CONST.SIZEDBOX10,
             FutureBuilder(
               future: AccountViewModel().getByEmail(blog.email),
               builder: (context, snapshot) {
@@ -69,11 +70,18 @@ class ABlogDetail extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(name ?? "name"),
+                              Text(name ?? "name",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: FONT_CONST.BESTIE.fontFamily
+                                )
+                              ),
                               Text(email ?? "email"),
                             ],
                           ),
-                        )
+                        ),
+                        IconButton(
+                            onPressed: (){}, icon: UI_CONST.ICON_SAVE)
                       ],
                     ),
                   );
@@ -81,10 +89,31 @@ class ABlogDetail extends StatelessWidget {
                 return const CircularProgressIndicator();
               },
             ),
-            Image.network(blog.image),
-            Text(blog.title, style: FONT_CONST.TITLE_BLOG),
-            Text(blog.content, style: FONT_CONST.CONTENT_BLOG,
-            ),
+            Padding(padding: EdgeInsets.only(top: 10 ,left: 10, right: 10),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Theme.of(context).dividerColor)
+                    ),
+                    child: Image.network(blog.image)
+                  ),
+                  Text(blog.title, style: FONT_CONST.TITLE_BLOG),
+                  Text(blog.content, style: FONT_CONST.CONTENT_BLOG,),
+                  UI_CONST.SIZEDBOX10,
+                  UI_CONST.DIVIDER1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border)),
+                      VerticalDivider(color: Colors.black,),
+                      IconButton(onPressed: (){}, icon: Icon(Icons.comment_outlined)),
+                    ],
+                  ),
+                  UI_CONST.DIVIDER1,
+                ],
+              ),
+            )
           ],
         ),
       ),
