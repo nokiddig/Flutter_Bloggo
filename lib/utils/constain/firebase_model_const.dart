@@ -15,4 +15,6 @@ class MODEL_CONST{
   static const String FIELD_TITLE = "title";
   static const String FIELD_CONTENT = "content";
   static const String FIELD_IMAGE = "image";
+
+  static const String FIELD_CATEGORYID = "categoryId";
 }

@@ -4,7 +4,7 @@ abstract class ViewModel<T>{
   T fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc);
   Map<String, dynamic> convertToMap(T t);
   Future<void> add(T t);
-  Stream<List<T>> getAll();
+  Future<List<T>> getAll();
   Future<void> delete(String str);
   Future<void> edit(T t);
 }

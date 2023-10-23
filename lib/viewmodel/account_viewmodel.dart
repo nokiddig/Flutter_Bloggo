@@ -25,18 +25,13 @@ class AccountViewModel extends ViewModel<Account>{
     }
   }
 
-  Stream<List<Account>> getAll() {
-    Stream<QuerySnapshot<Map<String, dynamic>>> snapshot = _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).snapshots();
-    if (snapshot.isEmpty == true) {
-
-    }
-    return _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        Account user = Account.fromFirestore(doc);
-        return user;
-      }
-      ).toList();
+  Future<List<Account>> getAll() async {
+    List<Account> all = [];
+    QuerySnapshot querySnapshot = await _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).get();
+    querySnapshot.docs.forEach((element) {
+      all.add(fromFirestore(element));
     });
+    return all;
   }
 
   Future<void> delete(String email) async {
@@ -59,7 +54,7 @@ class AccountViewModel extends ViewModel<Account>{
   }
 
   @override
-  Account fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  Account fromFirestore(DocumentSnapshot<Object?> doc) {
     final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Account(
         data[MODEL_CONST.FIELD_NAME],

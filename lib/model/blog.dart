@@ -1,11 +1,12 @@
 class Blog{
   String? _id;
-  String _title = "";
+  String _categoryId = "1";
   String _content = "";
-  String _image = "";
   String _email = "";
+  String _image = "";
+  String _title = "";
 
-  Blog(this._id, this._title, this._content, this._image, this._email);
+  Blog(this._id, this._title, this._content, this._image, this._email, this._categoryId);
 
   String get id => _id ?? "";
 
@@ -35,5 +36,11 @@ class Blog{
 
   set email(String value) {
     _email = value;
+  }
+
+  String get categoryId => _categoryId;
+
+  set categoryId(String value) {
+    _categoryId = value;
   }
 }

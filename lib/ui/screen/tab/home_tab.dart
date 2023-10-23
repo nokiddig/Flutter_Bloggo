@@ -51,8 +51,8 @@ class Highlight extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200,
-      child: StreamBuilder<List<Blog>>(
-        stream: viewmodel.getAll(),
+      child: FutureBuilder<List<Blog>>(
+        future: viewmodel.getAll(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -96,7 +96,7 @@ class Highlight extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                               ),
-                              
+
                             )
                         )
                     )
@@ -125,10 +125,9 @@ class NewFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String a = STRING_CONST.IMAGE_DEFAULT;
-    return StreamBuilder<List<Blog>>(
-      stream: viewmodel.getAll(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData){
+    return FutureBuilder(
+        future: viewmodel.getAll(),
+        builder: (context, snapshot) {
           List<Blog> data = snapshot.data ?? [];
           return ListView.builder(
             itemCount: data.length,
@@ -162,7 +161,7 @@ class NewFeed extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            flex: 2,
+                              flex: 2,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: SingleChildScrollView(
@@ -187,15 +186,80 @@ class NewFeed extends StatelessWidget {
                   ),
                 ),
               );
-          },);
-        }
-        else if(snapshot.hasError){
-          return Text("Đã xảy ra lỗi: ${snapshot.error}");
-        }
-        else{
-          return Center(child: CircularProgressIndicator());
-        }
-      }
+            },);
+        },
     );
+    // return StreamBuilder<List<Blog>>(
+    //   stream: viewmodel.getAll(),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData){
+    //       List<Blog> data = snapshot.data ?? [];
+    //       return ListView.builder(
+    //         itemCount: data.length,
+    //         itemBuilder: (context, index) {
+    //           Blog blog = data[index];
+    //           return Padding(
+    //             padding: const EdgeInsets.only(top: 5, bottom: 5),
+    //             child: SizedBox(
+    //               height: 70,
+    //               child: GestureDetector(
+    //                 onTap: (){
+    //                   Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetail(blog: blog),));
+    //                 },
+    //                 child: Hero(
+    //                   tag: "blog-detail-${blog.id}",
+    //                   child: Row(
+    //                     mainAxisSize: MainAxisSize.max,
+    //                     children: [
+    //                       Expanded(
+    //                         flex: 1,
+    //                         child: Container(
+    //                           padding: EdgeInsets.all(5),
+    //                           // height: 90,
+    //                           decoration: BoxDecoration(
+    //                               image: DecorationImage(
+    //                                 image: NetworkImage(blog.image,),
+    //                                 fit: BoxFit.fill,
+    //                               ),
+    //                               borderRadius: BorderRadius.circular(10)
+    //                           ),
+    //                         ),
+    //                       ),
+    //                       Expanded(
+    //                         flex: 2,
+    //                           child: Padding(
+    //                             padding: const EdgeInsets.only(left: 10),
+    //                             child: SingleChildScrollView(
+    //                               child: Column(
+    //                                 mainAxisSize: MainAxisSize.max,
+    //                                 mainAxisAlignment: MainAxisAlignment.start,
+    //                                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                                 children: [
+    //                                   Text(blog.title, style: FONT_CONST.TITLE_BLOG),
+    //                                   Text(blog.content, style: FONT_CONST.CONTENT_BLOG,
+    //                                     maxLines: 2,
+    //                                     overflow: TextOverflow.ellipsis,
+    //                                   ),
+    //                                 ],
+    //                               ),
+    //                             ),
+    //                           )
+    //                       )
+    //                     ],
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           );
+    //       },);
+    //     }
+    //     else if(snapshot.hasError){
+    //       return Text("Đã xảy ra lỗi: ${snapshot.error}");
+    //     }
+    //     else{
+    //       return Center(child: CircularProgressIndicator());
+    //     }
+    //   }
+    // );
   }
 }

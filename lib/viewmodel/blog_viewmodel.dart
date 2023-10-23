@@ -14,16 +14,36 @@ class BlogViewmodel extends ViewModel<Blog>{
 
   BlogViewmodel._internal();
 
+  Future<String> genNewId() async {
+    QuerySnapshot querySnapshot = await _firestore
+        .collection(MODEL_CONST.COLLECTION_BLOG)
+        .get();
+    int id = 0;
+    querySnapshot.docs.forEach((element) {
+      if(id < int.parse(element.id)){
+        id = int.parse(element.id);
+      }
+    });
+    id ++;
+    return id.toString();
+  }
+
   @override
-  Future<void> add(Blog t) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<void> add(Blog t) async {
+    t.id = await genNewId();
+    print("tesst blog" + t.id);
+    _firestore.collection(MODEL_CONST.COLLECTION_BLOG).doc(t.id).set(convertToMap(t));
   }
 
   @override
   Map<String, dynamic> convertToMap(Blog t) {
-    // TODO: implement convertToMap
-    throw UnimplementedError();
+    return {
+      MODEL_CONST.FIELD_EMAIL: t.email,
+      MODEL_CONST.FIELD_IMAGE: t.image,
+      MODEL_CONST.FIELD_TITLE: t.title,
+      MODEL_CONST.FIELD_CONTENT: t.content,
+      MODEL_CONST.FIELD_CATEGORYID: t.categoryId
+    };
   }
 
   @override
@@ -47,31 +67,28 @@ class BlogViewmodel extends ViewModel<Blog>{
         data[MODEL_CONST.FIELD_CONTENT],
         data[MODEL_CONST.FIELD_IMAGE],
         data[MODEL_CONST.FIELD_EMAIL],
+        data[MODEL_CONST.FIELD_CATEGORYID],
     );
   }
 
   @override
-  Stream<List<Blog>> getAll() {
-    Stream<QuerySnapshot<Map<String, dynamic>>> snapshot = _firestore.collection(MODEL_CONST.COLLECTION_BLOG).snapshots();
-    if (snapshot.isEmpty == true) {
-
-    }
-    return _firestore.collection(MODEL_CONST.COLLECTION_BLOG).snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        Blog blog = fromFirestore(doc);
-        return blog;
-      }
-      ).toList();
+  Future<List<Blog>> getAll() async {
+    List<Blog> all = [];
+    QuerySnapshot querySnapshot = await _firestore.collection(MODEL_CONST.COLLECTION_BLOG).get();
+    querySnapshot.docs.forEach((element) {
+      all.add(fromFirestore(element));
     });
+    return all;
   }
 
-  Future<List<Blog>> getPostsByEmail(String email) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection(MODEL_CONST.COLLECTION_BLOG)
+  Stream<List<Blog>> getPostsByEmail(String email) {
+    return _firestore.collection(MODEL_CONST.COLLECTION_BLOG)
         .where(MODEL_CONST.FIELD_EMAIL, isEqualTo: email)
-        .get();
-    List<Blog> result = [];
-    querySnapshot.docs.forEach((element) {result.add(fromFirestore(element));});
-    return result;
+        .snapshots().map((snapshot) {
+          return snapshot.docs.map((doc) {
+            Blog blog = fromFirestore(doc);
+            return blog;
+          }
+        ).toList();});
   }
 }

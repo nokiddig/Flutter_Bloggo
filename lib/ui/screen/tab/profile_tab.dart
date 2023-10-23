@@ -78,8 +78,8 @@ class _ProfileTabState extends State<ProfileTab> {
                   );
                 }
               ),
-              FutureBuilder(
-                  future: blogViewModel.getPostsByEmail(widget.email), builder: (context, snapshot) {
+              StreamBuilder(
+                  stream: blogViewModel.getPostsByEmail(widget.email), builder: (context, snapshot) {
                     List<Blog> blogs = snapshot.data ?? [];
                     return ListView.builder(
                       shrinkWrap: true, // Set this to true
