@@ -15,7 +15,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
-          body: CreateBlog()
+          body: Container(
+            child: PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(child: Text("option 1"),
+                  value: "a",
+                ),
+                PopupMenuItem(child: Text("option 2"),
+                  value: "b",
+                ),
+                PopupMenuItem(child: Text("option 3"),
+                  value: "c",
+                ),
+              ],
+              onSelected: (value) {
+                print(value);
+              },
+            )
+          )
         ),
       ),
       debugShowCheckedModeBanner: false,

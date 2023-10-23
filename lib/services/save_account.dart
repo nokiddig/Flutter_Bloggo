@@ -31,6 +31,7 @@ import 'package:shared_preferences/shared_preferences.dart';
     await _preferences.setString(STRING_CONST.SAVE_EMAIL, email);
     await _preferences.setString(STRING_CONST.SAVE_PASS, pass);
     await _preferences.setBool(STRING_CONST.SAVE_ISCHECKED, isChecked);
+    init();
   }
 
   void clear() {

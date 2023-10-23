@@ -1,8 +1,15 @@
 import 'package:blog_app/model/account.dart';
 import 'package:blog_app/model/blog.dart';
+import 'package:blog_app/services/save_account.dart';
+import 'package:blog_app/ui/screen/blog/edit_blog.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
+import 'package:blog_app/viewmodel/blog_viewmodel.dart';
+import 'package:blog_app/viewmodel/save_viewmodel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../../../model/save.dart';
 
 class BlogDetail extends StatefulWidget {
   const BlogDetail({super.key, required this.blog});
@@ -25,7 +32,7 @@ class _BlogDetailState extends State<BlogDetail> {
 
 class ABlogDetail extends StatelessWidget {
   Blog blog;
-
+  BlogViewmodel blogViewmodel = BlogViewmodel();
   ABlogDetail(this.blog, {super.key});
 
   @override
@@ -80,8 +87,34 @@ class ABlogDetail extends StatelessWidget {
                             ],
                           ),
                         ),
-                        IconButton(
-                            onPressed: (){}, icon: UI_CONST.ICON_SAVE)
+                        PopupMenuButton(
+                          itemBuilder: (context) {
+                            List<PopupMenuEntry> list = [const PopupMenuItem(child: Text("Save"),
+                                value: STRING_CONST.VALUE_SAVE)];
+                            if (SaveAccount.currentEmail == email){
+                              list.addAll([
+                                const PopupMenuItem(child: Text("Edit"),
+                                  value: STRING_CONST.VALUE_EDIT,
+                                ),
+                                const PopupMenuItem(child: Text("Delete"),
+                                  value: STRING_CONST.VALUE_DELETE,
+                                ),]);
+                            }
+                            return list;
+                          },
+                          onSelected: (value) {
+                            switch (value) {
+                              case STRING_CONST.VALUE_DELETE:
+                                this.deleteBlog(context);                                break;
+                              case STRING_CONST.VALUE_EDIT:
+                                this.editBlog(context); 
+                                break;
+                              case STRING_CONST.VALUE_SAVE:
+                                this.saveBlog();
+                                break;
+                            }
+                          },
+                        )
                       ],
                     ),
                   );
@@ -118,5 +151,46 @@ class ABlogDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void deleteBlog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      // false = user must tap button, true = tap outside dialog
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('Confirm'),
+          content: Text('You want to delete this post?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Dismiss alert dialog
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                blogViewmodel.delete(blog.id);
+                Navigator.of(dialogContext).pop(); // Dismiss alert dialog
+                Navigator.of(dialogContext).pop(); // Dismiss alert dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void editBlog(BuildContext context) {
+    Route route = MaterialPageRoute(builder: (context) => EditBlog(blog),);
+    Navigator.push(context, route);
+  }
+
+  void saveBlog() {
+    Timestamp time = Timestamp.fromDate(DateTime.now());
+    if (SaveAccount.currentEmail != null)
+      SaveViewmodel().add(Save(SaveAccount.currentEmail! ,blog.id, time));
   }
 }

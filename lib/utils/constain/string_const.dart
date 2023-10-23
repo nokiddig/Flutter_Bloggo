@@ -13,4 +13,8 @@ class STRING_CONST{
   static const String SAVED = "Saved";
   static const String DARKMODE = "DarkMode";
 
+  static const String VALUE_SAVE = "save";
+  static const String VALUE_EDIT = "edit";
+  static const String VALUE_DELETE = "delete";
+
 }

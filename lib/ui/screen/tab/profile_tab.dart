@@ -224,7 +224,8 @@ class _TopPortion extends StatelessWidget {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                              account?.avatarPath ?? STRING_CONST.NETWORKIMAGE_DEFAULT
+                              account?.avatarPath == "" ? STRING_CONST.NETWORKIMAGE_DEFAULT
+                                  : account?.avatarPath ?? STRING_CONST.NETWORKIMAGE_DEFAULT
                           )
                       ),
                     ),

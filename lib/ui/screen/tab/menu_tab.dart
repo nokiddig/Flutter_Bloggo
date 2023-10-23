@@ -56,13 +56,6 @@ class _MenuTabState extends State<MenuTab> {
         ),
         UI_CONST.DIVIDER1,
         ListTile(
-          leading: Icon(Icons.account_circle_outlined),
-          title: Text(STRING_CONST.PROFILE),
-          onTap: (){},
-          trailing: Icon(Icons.navigate_next),
-        ),
-        UI_CONST.DIVIDER1,
-        ListTile(
           leading: UI_CONST.ICON_LOGOUT,
           title: Text(STRING_CONST.LOGOUT),
           onTap: (){
