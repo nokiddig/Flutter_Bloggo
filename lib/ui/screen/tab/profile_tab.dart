@@ -82,7 +82,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   stream: blogViewModel.getPostsByEmail(widget.email), builder: (context, snapshot) {
                     List<Blog> blogs = snapshot.data ?? [];
                     return ListView.builder(
-                      shrinkWrap: true, // Set this to true
+                      shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: blogs.length,
                         itemBuilder: (context, index) {

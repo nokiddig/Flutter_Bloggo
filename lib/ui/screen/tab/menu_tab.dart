@@ -2,6 +2,7 @@ import 'package:blog_app/services/firebase_authentication.dart';
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/login/signin_screen.dart';
 import 'package:blog_app/ui/screen/tab/profile_tab.dart';
+import 'package:blog_app/ui/screen/tab/save_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +52,10 @@ class _MenuTabState extends State<MenuTab> {
         ListTile(
           leading: UI_CONST.ICON_SAVE,
           title: Text(STRING_CONST.SAVED),
-          onTap: (){},
+          onTap: (){
+            Route route = MaterialPageRoute(builder: (context) => SaveTab(),);
+            Navigator.push(context, route);
+          },
           trailing: Icon(Icons.navigate_next),
         ),
         UI_CONST.DIVIDER1,
@@ -65,7 +69,6 @@ class _MenuTabState extends State<MenuTab> {
           },
         ),
         UI_CONST.DIVIDER1,
-
       ],
     );
   }

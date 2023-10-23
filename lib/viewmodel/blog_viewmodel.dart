@@ -91,4 +91,23 @@ class BlogViewmodel extends ViewModel<Blog>{
           }
         ).toList();});
   }
+
+  Future<Blog?> getById(String id) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> blogSnapshot = await _firestore
+          .collection(MODEL_CONST.COLLECTION_BLOG)
+          .doc(id)
+          .get();
+
+      if (blogSnapshot.exists) {
+        Blog blog = this.fromFirestore(blogSnapshot);
+        return blog;
+      } else {
+        return null; // Không tìm thấy blog với documentId cung cấp.
+      }
+    } catch (e) {
+      print('Lỗi khi truy vấn Firestore: $e');
+      return null;
+    }
+  }
 }

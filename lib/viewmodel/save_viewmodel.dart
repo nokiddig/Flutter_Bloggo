@@ -59,6 +59,7 @@ class SaveViewmodel extends ViewModel<Save>{
     // TODO: implement getAll
     throw UnimplementedError();
   }
+
   Stream<List<Save>> getByEmail() {
     return _firestore.collection(MODEL_CONST.COLLECTION_SAVE)
         .where(MODEL_CONST.FIELD_EMAIL,isEqualTo: SaveAccount.currentEmail)
