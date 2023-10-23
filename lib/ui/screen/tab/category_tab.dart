@@ -13,7 +13,13 @@ class _CategoryTabState extends State<CategoryTab> {
   Widget build(BuildContext context) {
     List<Category> listCategory = [
       Category("Tech", "NO des",
-          "https://image.shutterstock.com/image-photo/businessman-using-mobile-smart-phone-260nw-1932042689.jpg")
+          "https://image.shutterstock.com/image-photo/businessman-using-mobile-smart-phone-260nw-1932042689.jpg"),
+      Category("Tech", "NO des",
+          "https://image.shutterstock.com/image-photo/businessman-using-mobile-smart-phone-260nw-1932042689.jpg"),
+      Category("Tech", "NO des",
+          "https://image.shutterstock.com/image-photo/businessman-using-mobile-smart-phone-260nw-1932042689.jpg"),
+      Category("Tech", "NO des",
+          "https://image.shutterstock.com/image-photo/businessman-using-mobile-smart-phone-260nw-1932042689.jpg"),
     ];
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -24,6 +30,7 @@ class _CategoryTabState extends State<CategoryTab> {
         itemCount: listCategory.length,
         itemBuilder: (context, index) {
           return Container(
+            margin: EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(listCategory[index].image),
