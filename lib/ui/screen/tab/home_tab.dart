@@ -19,24 +19,22 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-              height: 150,
-              child: Center(child: Lottie.network("https://lottie.host/a7ff454c-f78a-41d1-a71f-a43277f5494e/o55QYBhiwd.json"))),
-          Text("Highlight", style: FONT_CONST.SESSION,),
-          Expanded(
-            flex: 1,
-              child: Highlight(viewmodel: viewmodel,)),
-          Text("Feed", style: FONT_CONST.SESSION,),
-          Expanded(
-              flex: 3,
-              child: NewFeed(viewmodel: viewmodel))
-        ],
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Container(
+                height: 150,
+                child: Center(child: Lottie.network("https://lottie.host/a7ff454c-f78a-41d1-a71f-a43277f5494e/o55QYBhiwd.json"))),
+            Text("Highlight", style: FONT_CONST.SESSION,),
+            Highlight(viewmodel: viewmodel,),
+            Text("Feed", style: FONT_CONST.SESSION,),
+            NewFeed(viewmodel: viewmodel)
+          ],
+        ),
       ),
     );
   }
@@ -50,7 +48,7 @@ class Highlight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 100,
       child: FutureBuilder<List<Blog>>(
         future: viewmodel.getAll(),
         builder: (context, snapshot) {
@@ -129,6 +127,8 @@ class NewFeed extends StatelessWidget {
         builder: (context, snapshot) {
           List<Blog> data = snapshot.data ?? [];
           return ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             itemCount: data.length,
             itemBuilder: (context, index) {
               Blog blog = data[index];
