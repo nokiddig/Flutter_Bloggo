@@ -8,6 +8,14 @@ import '../utils/constain/my_const.dart';
 class FollowViewmodel extends ViewModel<Follow>{
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  static final FollowViewmodel _instance = FollowViewmodel._internal();
+
+  factory FollowViewmodel() {
+    return _instance;
+  }
+
+  FollowViewmodel._internal();
+
   @override
   Future<void> add(Follow t) async {
     await _firestore.collection(MODEL_CONST.COLLECTION_FOLLOW)
