@@ -110,7 +110,7 @@ class Highlight extends StatelessWidget {
           return const CircularProgressIndicator();
         },
       ),
-    );;
+    );
   }
 }
 
@@ -124,7 +124,6 @@ class NewFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String a = STRING_CONST.IMAGE_DEFAULT;
     return FutureBuilder(
         future: viewmodel.getAll(),
         builder: (context, snapshot) {

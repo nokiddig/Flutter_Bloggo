@@ -84,6 +84,19 @@ class BlogViewmodel extends ViewModel<Blog>{
     return all;
   }
 
+  @override
+  Future<List<Blog>> search(String title) async {
+    List<Blog> result = [];
+    QuerySnapshot querySnapshot = await _firestore.collection(MODEL_CONST.COLLECTION_BLOG).get();
+    querySnapshot.docs.forEach((element) {
+      Blog blog = fromFirestore(element);
+      if (blog.title.toLowerCase().contains(title.toLowerCase())){
+        result.add(blog);
+      }
+    });
+    return result;
+  }
+
   Stream<List<Blog>> getPostsByEmail(String email) {
     return _firestore.collection(MODEL_CONST.COLLECTION_BLOG)
         .where(MODEL_CONST.FIELD_EMAIL, isEqualTo: email)

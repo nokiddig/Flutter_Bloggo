@@ -5,6 +5,7 @@ import 'package:blog_app/utils/constain/color_const.dart';
 import 'package:blog_app/utils/constain/font_const.dart';
 import 'package:flutter/material.dart';
 
+import '../screen/tab/custom_search.dart';
 import '../screen/tab/menu_tab.dart';
 import '../screen/tab/profile_tab.dart';
 
@@ -103,28 +104,3 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
   }
 }
 
-class CustomSearch extends SearchDelegate {
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [IconButton(onPressed: () {
-      this.query = '';
-    }, icon: Icon(Icons.clear))];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(onPressed: () {
-      close(context, null);
-    }, icon: Icon(Icons.arrow_back));
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Text("data");
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return Text("data");
-  }
-}
