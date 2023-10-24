@@ -54,13 +54,14 @@ class _ProfileTabState extends State<ProfileTab> {
                                   FloatingActionButton.extended(
                                     onPressed: () {},
                                     elevation: 0,
+                                    heroTag: 'Follow',
                                     label: const Text("Follow"),
                                     icon: const Icon(Icons.person_add_alt_1),
                                   ),
                                   const SizedBox(width: 16.0),
                                   FloatingActionButton.extended(
                                     onPressed: () {},
-                                    heroTag: 'mesage',
+                                    heroTag: 'Block',
                                     elevation: 0,
                                     backgroundColor: Colors.red,
                                     label: const Text("Block"),
