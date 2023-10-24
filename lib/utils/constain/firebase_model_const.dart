@@ -5,6 +5,7 @@ class MODEL_CONST{
   static const String COLLECTION_CATEGORY = "category";
   static const String COLLECTION_COMMENT = "comment";
   static const String COLLECTION_LIKE = "like";
+  static const String COLLECTION_FOLLOW = "follow";
 
   static const String FIELD_NAME = "name";
   static const String FIELD_PASS = "password";
@@ -20,5 +21,7 @@ class MODEL_CONST{
   static const String FIELD_CATEGORYID = "categoryId";
   static const String FIELD_BLOGID = "blogId";
   static const String FIELD_TIME = "time";
+  static const String FIELD_FOLLOWEREMAIL = "followerEmail";
+  static const String FIELD_FOLLOWINGEMAIL = "followingEmail";
 
 }

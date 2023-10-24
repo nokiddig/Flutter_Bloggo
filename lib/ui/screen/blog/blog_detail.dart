@@ -2,6 +2,7 @@ import 'package:blog_app/model/account.dart';
 import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/blog/edit_blog.dart';
+import 'package:blog_app/ui/screen/tab/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
@@ -53,19 +54,25 @@ class ABlogDetail extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: CircleAvatar(
-                          child: ClipOval(
-                            child: Image.network(
-                              avatar ?? "",
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Image.asset(
-                                STRING_CONST.IMAGE_DEFAULT,
+                      GestureDetector(
+                        onTap: (){
+                          Route route = MaterialPageRoute(builder: (context) => ProfileTab(email: email ?? ""),);
+                          Navigator.push(context, route);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20),
+                          child: CircleAvatar(
+                            child: ClipOval(
+                              child: Image.network(
+                                avatar ?? "",
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Image.asset(
+                                  STRING_CONST.IMAGE_DEFAULT,
+                                ),
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
                               ),
-                              width: 200,
-                              height: 200,
-                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -121,30 +128,44 @@ class ABlogDetail extends StatelessWidget {
               return const CircularProgressIndicator();
             },
           ),
-          Padding(padding: EdgeInsets.only(top: 10 ,left: 10, right: 10),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Theme.of(context).dividerColor)
+          StreamBuilder<Blog?>(
+            stream: blogViewmodel.getById(blog.id),
+            builder: (context, snapshot) {
+              if (snapshot.hasData){
+                Blog blogSnap = snapshot!.data!;
+                return Padding(padding: EdgeInsets.only(top: 10 ,left: 10, right: 10),
+                  child: Column(
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Theme.of(context).dividerColor)
+                          ),
+                          child: Image.network(blogSnap.image)
+                      ),
+                      Text(blogSnap.title, style: FONT_CONST.TITLE_BLOG),
+                      Text(blogSnap.content, style: FONT_CONST.CONTENT_BLOG,),
+                      UI_CONST.SIZEDBOX10,
+                      UI_CONST.DIVIDER1,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border)),
+                          VerticalDivider(color: Colors.black,),
+                          IconButton(onPressed: (){}, icon: Icon(Icons.comment_outlined)),
+                        ],
+                      ),
+                      UI_CONST.DIVIDER1,
+                    ],
                   ),
-                  child: Image.network(blog.image)
-                ),
-                Text(blog.title, style: FONT_CONST.TITLE_BLOG),
-                Text(blog.content, style: FONT_CONST.CONTENT_BLOG,),
-                UI_CONST.SIZEDBOX10,
-                UI_CONST.DIVIDER1,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border)),
-                    VerticalDivider(color: Colors.black,),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.comment_outlined)),
-                  ],
-                ),
-                UI_CONST.DIVIDER1,
-              ],
-            ),
+                );
+              }
+              else if (snapshot.hasError){
+                return Text(snapshot.error.toString());
+              }
+              else {
+                return Center(child: CircularProgressIndicator());
+              }
+            }
           )
         ],
       ),

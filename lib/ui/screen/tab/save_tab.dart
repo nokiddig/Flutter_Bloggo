@@ -41,8 +41,8 @@ class _SaveTabState extends State<SaveTab> {
                         border: Border.all(),
                         borderRadius: BorderRadius.circular(5)
                       ),
-                      child: FutureBuilder(
-                        future: blogViewmodel.getById(save.blogId),
+                      child: StreamBuilder<Blog?>(
+                        stream: blogViewmodel.getById(save.blogId),
                         builder: (context, snapshot) {
                           Blog blog = snapshot!.data ?? Blog("id", "title", "content", "", "", "");
                           return Stack(

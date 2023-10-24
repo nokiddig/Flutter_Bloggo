@@ -31,8 +31,8 @@ class BlogViewmodel extends ViewModel<Blog>{
   @override
   Future<void> add(Blog t) async {
     t.id = await genNewId();
-    print("tesst blog" + t.id);
-    _firestore.collection(MODEL_CONST.COLLECTION_BLOG).doc(t.id).set(convertToMap(t));
+    _firestore.collection(MODEL_CONST.COLLECTION_BLOG).doc(t.id)
+        .set(convertToMap(t));
   }
 
   @override
@@ -47,15 +47,18 @@ class BlogViewmodel extends ViewModel<Blog>{
   }
 
   @override
-  Future<void> delete(String str) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete(String str) async {
+    try {
+      await FirebaseFirestore.instance.collection(MODEL_CONST.COLLECTION_BLOG).doc(str).delete();
+    } catch (e) {
+      print('Lỗi khi xóa tài liệu: $e');
+    }
   }
 
   @override
-  Future<void> edit(Blog t) {
-    // TODO: implement edit
-    throw UnimplementedError();
+  Future<void> edit(Blog t) async {
+    _firestore.collection(MODEL_CONST.COLLECTION_BLOG).doc(t.id)
+        .set(convertToMap(t));
   }
 
   @override
@@ -92,22 +95,19 @@ class BlogViewmodel extends ViewModel<Blog>{
         ).toList();});
   }
 
-  Future<Blog?> getById(String id) async {
+  Stream<Blog?> getById(String id) {
     try {
-      DocumentSnapshot<Map<String, dynamic>> blogSnapshot = await _firestore
+      return _firestore
           .collection(MODEL_CONST.COLLECTION_BLOG)
           .doc(id)
-          .get();
-
-      if (blogSnapshot.exists) {
-        Blog blog = this.fromFirestore(blogSnapshot);
-        return blog;
-      } else {
-        return null; // Không tìm thấy blog với documentId cung cấp.
-      }
+          .snapshots()
+          .map((event) {
+        return fromFirestore(event);
+      });
     } catch (e) {
       print('Lỗi khi truy vấn Firestore: $e');
-      return null;
+      return Stream.error(e);
     }
   }
+
 }

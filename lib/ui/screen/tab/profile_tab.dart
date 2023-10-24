@@ -1,8 +1,11 @@
+import 'package:blog_app/model/follow.dart';
+import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/blog/blog_detail.dart';
 import 'package:blog_app/ui/screen/blog/create_blog.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
+import 'package:blog_app/viewmodel/follow_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/account.dart';
@@ -48,29 +51,24 @@ class _ProfileTabState extends State<ProfileTab> {
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 16),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  FloatingActionButton.extended(
-                                    onPressed: () {},
-                                    elevation: 0,
-                                    heroTag: 'Follow',
-                                    label: const Text("Follow"),
-                                    icon: const Icon(Icons.person_add_alt_1),
-                                  ),
-                                  const SizedBox(width: 16.0),
-                                  FloatingActionButton.extended(
-                                    onPressed: () {},
-                                    heroTag: 'Block',
-                                    elevation: 0,
-                                    backgroundColor: Colors.red,
-                                    label: const Text("Block"),
-                                    icon: const Icon(Icons.block),
-                                  ),
-                                ],
-                              ),
+                              if(widget.email != SaveAccount.currentEmail)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    this.genFollowButton(widget.email),
+                                    const SizedBox(width: 16.0),
+                                    FloatingActionButton.extended(
+                                      onPressed: () {},
+                                      heroTag: 'Block',
+                                      elevation: 0,
+                                      backgroundColor: Colors.red,
+                                      label: const Text("Block"),
+                                      icon: const Icon(Icons.block),
+                                    ),
+                                  ],
+                                ),
                               const SizedBox(height: 16),
-                              const _ProfileInfoRow()
+                              _ProfileInfoRow(widget.email)
                             ],
                           ),
                         ),
@@ -129,16 +127,57 @@ class _ProfileTabState extends State<ProfileTab> {
       ),
     );
   }
+
+  Widget genFollowButton(String followingEmail) {
+    FollowViewmodel viewmodel = FollowViewmodel();
+    return StreamBuilder<bool>(
+      stream: viewmodel.checkFollow( SaveAccount.currentEmail!, followingEmail),
+      builder: (context, snapshot) {
+        bool state = false;
+        String followText = "Follow";
+        Color backgroundColor = DefaultSelectionStyle.defaultColor;
+        IconData iconData = Icons.person_add_alt_1;
+        if (snapshot.hasData){
+          if (snapshot.data == true){
+            state = snapshot!.data!;
+            followText = "Followed";
+            backgroundColor = Colors.green;
+            iconData = Icons.person_2_outlined;
+          }
+        }
+
+        return FloatingActionButton.extended(
+          onPressed: () {
+            setState(() {
+              if (state == true){
+                viewmodel.delete(followingEmail);
+              }
+              else{
+                viewmodel.add(Follow("id", SaveAccount.currentEmail!, followingEmail));
+              }
+            });
+          },
+          elevation: 0,
+          heroTag: 'Follow',
+          label: Text(followText),
+          icon: Icon(iconData),
+          backgroundColor: backgroundColor,
+        );
+      }
+    );
+  }
 }
 
 class _ProfileInfoRow extends StatelessWidget {
-  const _ProfileInfoRow({Key? key}) : super(key: key);
-
+  final String email;
+  FollowViewmodel followViewmodel = FollowViewmodel();
   final List<ProfileInfoItem> _items = const [
     ProfileInfoItem("Posts", 900),
-    ProfileInfoItem("Followers", 120),
+    ProfileInfoItem("Followers", 100),
     ProfileInfoItem("Following", 200),
   ];
+
+  _ProfileInfoRow(this.email);
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +265,7 @@ class _TopPortion extends StatelessWidget {
                           fit: BoxFit.cover,
                           image: NetworkImage(
                               account?.avatarPath == "" ? STRING_CONST.NETWORKIMAGE_DEFAULT
-                                  : account?.avatarPath ?? STRING_CONST.NETWORKIMAGE_DEFAULT
+                                  : (account?.avatarPath ?? STRING_CONST.NETWORKIMAGE_DEFAULT)
                           )
                       ),
                     ),
