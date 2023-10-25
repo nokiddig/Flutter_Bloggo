@@ -48,8 +48,12 @@ class FollowViewmodel extends ViewModel<Follow>{
 
   @override
   Follow fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
-    // TODO: implement fromFirestore
-    throw UnimplementedError();
+    final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return Follow(
+      doc.id,
+      data[MODEL_CONST.FIELD_FOLLOWEREMAIL],
+      data[MODEL_CONST.FIELD_FOLLOWINGEMAIL],
+    );
   }
 
   @override
