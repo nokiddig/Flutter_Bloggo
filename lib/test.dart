@@ -1,11 +1,6 @@
-import 'package:blog_app/ui/screen/blog/create_blog.dart';
-import 'package:blog_app/viewmodel/blog_viewmodel.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+void main() {
   runApp(MyApp());
 }
 
@@ -13,29 +8,50 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          body: Container(
-            child: PopupMenuButton(
-              itemBuilder: (context) => [
-                PopupMenuItem(child: Text("option 1"),
-                  value: "a",
-                ),
-                PopupMenuItem(child: Text("option 2"),
-                  value: "b",
-                ),
-                PopupMenuItem(child: Text("option 3"),
-                  value: "c",
-                ),
-              ],
-              onSelected: (value) {
-                print(value);
-              },
-            )
-          )
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Radio Button Example'),
         ),
+        body: RadioButtonDemo(),
       ),
-      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class RadioButtonDemo extends StatefulWidget {
+  @override
+  _RadioButtonDemoState createState() => _RadioButtonDemoState();
+}
+
+class _RadioButtonDemoState extends State<RadioButtonDemo> {
+  String selectedGender = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        RadioListTile(
+          title: Text('Male'),
+          value: 'Male',
+          groupValue: selectedGender,
+          onChanged: (value) {
+            setState(() {
+              selectedGender = value.toString();
+            });
+          },
+        ),
+        RadioListTile(
+          title: Text('Female'),
+          value: 'Female',
+          groupValue: selectedGender,
+          onChanged: (value) {
+            setState(() {
+              selectedGender = value.toString();
+            });
+          },
+        ),
+        Text('Selected Gender: $selectedGender'),
+      ],
     );
   }
 }

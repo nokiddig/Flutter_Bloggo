@@ -1,7 +1,7 @@
 // import 'package:blog_app/lib/ui/custom_ui/custom_ui.dart';
 import 'package:flutter/material.dart';
 
-import '../custom_ui/custom_ui.dart';
+import '../custom/custom_ui.dart';
 
 
 class COLOR_CONST {

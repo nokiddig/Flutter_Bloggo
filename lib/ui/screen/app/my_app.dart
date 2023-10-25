@@ -1,7 +1,6 @@
 import 'package:blog_app/utils/constain/color_const.dart';
 import 'package:flutter/material.dart';
-
-import '../screen/splash_screen.dart';
+import '../splash_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

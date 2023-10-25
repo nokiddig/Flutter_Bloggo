@@ -2,7 +2,7 @@ import 'package:blog_app/model/account.dart';
 import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/blog/edit_blog.dart';
-import 'package:blog_app/ui/screen/tab/profile_tab.dart';
+import 'package:blog_app/ui/screen/profile/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';

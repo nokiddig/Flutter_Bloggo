@@ -1,13 +1,11 @@
 import 'package:blog_app/services/firebase_authentication.dart';
 import 'package:blog_app/services/save_account.dart';
+import 'package:blog_app/ui/screen/profile/edit_profile.dart';
 import 'package:blog_app/ui/screen/login/signin_screen.dart';
-import 'package:blog_app/ui/screen/tab/profile_tab.dart';
-import 'package:blog_app/ui/screen/tab/save_tab.dart';
+import 'package:blog_app/ui/screen/profile/profile_tab.dart';
+import 'package:blog_app/ui/screen/blog/save_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
-
-import '../../../model/account.dart';
-import '../../app/bottom_navigation_app.dart';
 
 class MenuTab extends StatefulWidget {
   const MenuTab({Key? key});
@@ -44,6 +42,17 @@ class _MenuTabState extends State<MenuTab> {
           title: Text(STRING_CONST.PROFILE),
           onTap: (){
             Route route = MaterialPageRoute(builder: (context) => ProfileTab(email: SaveAccount.currentEmail?? "email"),);
+            Navigator.push(context, route);
+          },
+          trailing: Icon(Icons.navigate_next),
+        ),
+        UI_CONST.DIVIDER1,
+        ListTile(
+          style: ListTileStyle.drawer,
+          leading: Icon(Icons.manage_accounts_outlined),
+          title: Text(STRING_CONST.EDIT_PROFILE),
+          onTap: (){
+            Route route = MaterialPageRoute(builder: (context) => EditProfile());
             Navigator.push(context, route);
           },
           trailing: Icon(Icons.navigate_next),

@@ -1,5 +1,5 @@
 import 'package:blog_app/services/save_account.dart';
-import 'package:blog_app/ui/app/bottom_navigation_app.dart';
+import 'package:blog_app/ui/screen/app/bottom_navigation_app.dart';
 import 'package:blog_app/ui/screen/login/signup_screen.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';

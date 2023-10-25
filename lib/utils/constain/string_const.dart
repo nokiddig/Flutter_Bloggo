@@ -17,4 +17,6 @@ class STRING_CONST{
   static const String VALUE_EDIT = "edit";
   static const String VALUE_DELETE = "delete";
 
+  static const String EDIT_PROFILE = "Edit profile";
+
 }

@@ -1,13 +1,13 @@
-import 'package:blog_app/ui/screen/tab/category_tab.dart';
-import 'package:blog_app/ui/screen/tab/home_tab.dart';
-import 'package:blog_app/ui/screen/tab/notification_tab.dart';
 import 'package:blog_app/utils/constain/color_const.dart';
 import 'package:blog_app/utils/constain/font_const.dart';
+import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
 
-import '../screen/tab/custom_search.dart';
-import '../screen/tab/menu_tab.dart';
-import '../screen/tab/profile_tab.dart';
+import '../../tab/category_tab.dart';
+import '../../tab/home_tab.dart';
+import '../../tab/menu_tab.dart';
+import '../../tab/notification_tab.dart';
+import '../custom_search.dart';
 
 class BottomNavigationApp extends StatefulWidget {
   BottomNavigationApp({super.key});
@@ -44,10 +44,13 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          leading: Image.asset(STRING_CONST.IMAGE_LOGO_REMOVEBG,
+            fit: BoxFit.fill,
+          ),
           title:  Text(_title, style: FONT_CONST.FONT_APP,),
           actions: [
             CircleAvatar(
-              backgroundColor: COLOR_CONST.GRAY7,
+              backgroundColor: Colors.transparent,
               child: IconButton(
                 onPressed: () {
                   showSearch(

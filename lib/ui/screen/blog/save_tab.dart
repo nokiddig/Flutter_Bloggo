@@ -1,3 +1,5 @@
+import 'package:blog_app/ui/screen/blog/blog_detail.dart';
+import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
 import 'package:blog_app/viewmodel/save_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,6 @@ class _SaveTabState extends State<SaveTab> {
             builder: (context, snapshot) {
               if (snapshot.hasData){
                 List<Save> saveList = snapshot.data ?? [];
-                print(saveList.toString());
                 return ListView.builder(
                   itemCount: saveList.length,
                   itemBuilder: (context, index) {
@@ -45,24 +46,32 @@ class _SaveTabState extends State<SaveTab> {
                         stream: blogViewmodel.getById(save.blogId),
                         builder: (context, snapshot) {
                           Blog blog = snapshot!.data ?? Blog("id", "title", "content", "", "", "");
-                          return Stack(
-                            children: [
-                              Positioned(
-                                width: 90,
-                                  height: 90,
-                                  top: 0,
-                                  left: 5,
-                                  child: Image.network(blog.image)
-                              ),
-                              Positioned(
-                                top: 10,
-                                left: 100,
-                                child: Text("Blog: ${blog.title}"),),
-                              Positioned(
-                                top: 50,
-                                left: 100,
-                                child: Text("Time: ${saveList[index].timestamp.toDate()}"),),
-                            ],
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetail(blog: blog),));
+                            },
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  width: 90,
+                                    height: 90,
+                                    top: 0,
+                                    left: 5,
+                                    child: Image.network(blog.image,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.network(STRING_CONST.NETWORKIMAGE_DEFAULT);
+                                      },)
+                                ),
+                                Positioned(
+                                  top: 10,
+                                  left: 100,
+                                  child: Text("Blog: ${blog.title}"),),
+                                Positioned(
+                                  top: 50,
+                                  left: 100,
+                                  child: Text("Time: ${saveList[index].timestamp.toDate()}"),),
+                              ],
+                            ),
                           );
                         }
 

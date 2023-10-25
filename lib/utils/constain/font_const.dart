@@ -32,11 +32,11 @@ class FONT_CONST {
       fontStyle: FontStyle.italic,
       color: COLOR_CONST.BLUE_DARK,
       shadows: const [
-        Shadow(
-          offset: Offset(2.0, 2.0), // Độ lệch theo trục x và y
-          color: Colors.black45,     // Màu bóng đổ
-          blurRadius: 3.0,         // Bán kính mờ (độ mờ của bóng đổ)
-        ),
+        // Shadow(
+        //   offset: Offset(2.0, 2.0), // Độ lệch theo trục x và y
+        //   color: Colors.black45,     // Màu bóng đổ
+        //   blurRadius: 3.0,         // Bán kính mờ (độ mờ của bóng đổ)
+        // ),
       ],);
 
   static final TextStyle TITLE_BLOG = TextStyle(

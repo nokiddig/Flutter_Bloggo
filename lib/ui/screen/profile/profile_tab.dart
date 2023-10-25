@@ -2,6 +2,7 @@ import 'package:blog_app/model/follow.dart';
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/blog/blog_detail.dart';
 import 'package:blog_app/ui/screen/blog/create_blog.dart';
+import 'package:blog_app/ui/screen/profile/edit_profile.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
@@ -38,7 +39,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     children: [
                       Container(height: 200, child: _TopPortion(snapshot.data)),
                       Container(
-                        height: 250,
+                        height: 220,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -66,7 +67,9 @@ class _ProfileTabState extends State<ProfileTab> {
                                       icon: const Icon(Icons.block),
                                     ),
                                   ],
-                                ),
+                                )
+                              else
+                                UI_CONST.SIZEDBOX30,
                               const SizedBox(height: 16),
                               _ProfileInfoRow(widget.email)
                             ],
@@ -110,6 +113,8 @@ class _ProfileTabState extends State<ProfileTab> {
             child: IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
+                Route route = MaterialPageRoute(builder: (context) => EditProfile(),);
+                Navigator.push(context, route);
               },
               color: Colors.white,
             ),
