@@ -18,6 +18,7 @@ class UI_CONST{
   static const Icon ICON_LOGOUT = Icon(Icons.logout);
   static const Icon ICON_DARKMODE = Icon(Icons.nightlight_outlined);
   static const Divider DIVIDER1 =  Divider(height: 1);
+  static const Divider DIVIDER2 =  Divider(height: 2);
 
 
 }

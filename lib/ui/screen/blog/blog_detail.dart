@@ -24,13 +24,13 @@ class BlogDetail extends StatefulWidget {
 class _BlogDetailState extends State<BlogDetail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 30,
-        ),
-        body: Hero(
-            tag: "blog-detail-${widget.blog.id}",
-            child: ABlogDetail(widget.blog)));
+    return  Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 30,
+          ),
+          body: Hero(
+              tag: "blog-detail-${widget.blog.id}",
+              child: ABlogDetail(widget.blog)));
   }
 }
 
@@ -167,47 +167,10 @@ class _ABlogDetailState extends State<ABlogDetail> {
                           style: FONT_CONST.CONTENT_BLOG,
                         ),
                         UI_CONST.SIZEDBOX10,
-                        UI_CONST.DIVIDER1,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            StreamBuilder(
-                              stream: likeViewmodel.checkLike(SaveAccount.currentEmail!, widget.blog.id),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData){
-                                  bool isLike = snapshot.data ?? false;
-                                  IconData icon = isLike==true ? Icons.favorite :Icons.favorite_border;
-                                  return IconButton(
-                                      onPressed: () {
-                                        if (isLike) {
-                                          likeViewmodel.delete(widget.blog.id);
-                                        }
-                                        else {
-                                          likeViewmodel.add(Like(widget.blog.id,
-                                              SaveAccount.currentEmail ?? "",
-                                              Timestamp.fromDate(DateTime.now())));
-                                        }
-                                      },
-                                      icon: Icon(icon),
-                                    color: Colors.redAccent,
-                                  );
-                                }
-                                return IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.favorite_border));
-                              }
-                            ),
-                            VerticalDivider(
-                              color: Colors.black,
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.comment_outlined),
-                              color: Colors.blueAccent,
-                            ),
-                          ],
-                        ),
-                        UI_CONST.DIVIDER1,
+                        UI_CONST.DIVIDER2,
+                        this.buildReaction(),
+                        UI_CONST.DIVIDER2,
+                        
                       ],
                     ),
                   );
@@ -222,6 +185,72 @@ class _ABlogDetailState extends State<ABlogDetail> {
     );
   }
 
+  Widget buildReaction() {
+    return Container(
+      padding: EdgeInsets.only(left: 30, right: 30),
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          buildLikeStream(),
+          VerticalDivider(),
+          buildCommentStream()
+        ],
+      ),
+    );
+  }
+  Widget buildLikeStream() {
+    return Center(
+      child: Row(
+        children: [
+          StreamBuilder(
+              stream:
+                  likeViewmodel.checkLike(SaveAccount.currentEmail!, widget.blog.id),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  bool isLike = snapshot.data ?? false;
+                  IconData icon =
+                      isLike == true ? Icons.favorite : Icons.favorite_border;
+                  return IconButton(
+                    onPressed: () {
+                      if (isLike) {
+                        likeViewmodel.delete(widget.blog.id);
+                      } else {
+                        likeViewmodel.add(Like(
+                            widget.blog.id,
+                            SaveAccount.currentEmail ?? "",
+                            Timestamp.fromDate(DateTime.now())));
+                      }
+                    },
+                    icon: Icon(icon),
+                    color: Colors.redAccent,
+                  );
+                }
+                return IconButton(
+                    onPressed: () {}, icon: Icon(Icons.favorite_border));
+              }),
+              FutureBuilder(
+                future: likeViewmodel.countLike(widget.blog.id),
+                builder: (context, snapshot) => Text(snapshot.data.toString()),
+              )
+        ],
+      ),
+    );
+  }
+  Widget buildCommentStream() {
+    return Center(
+      child: Row(
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.comment_outlined),
+            color: Colors.blueAccent,
+          ),
+          Text("1")
+        ],
+      ),
+    );
+  }
   void deleteBlog(BuildContext context) {
     showDialog<void>(
       context: context,
@@ -251,17 +280,16 @@ class _ABlogDetailState extends State<ABlogDetail> {
       },
     );
   }
-
   void editBlog(BuildContext context) {
     Route route = MaterialPageRoute(
       builder: (context) => EditBlog(widget.blog),
     );
     Navigator.push(context, route);
   }
-
   void saveBlog() {
     Timestamp time = Timestamp.fromDate(DateTime.now());
     if (SaveAccount.currentEmail != null)
-      SaveViewmodel().add(Save(SaveAccount.currentEmail!, widget.blog.id, time));
+      SaveViewmodel()
+          .add(Save(SaveAccount.currentEmail!, widget.blog.id, time));
   }
 }
