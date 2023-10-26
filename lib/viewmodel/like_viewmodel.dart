@@ -53,12 +53,11 @@ class LikeViewmodel extends ViewModel<Like>{
     throw UnimplementedError();
   }
   
-  Future<int> countLike(String blogId) async {
-    QuerySnapshot querySnapshot = await _firestore
+  Stream<int> countLike(String blogId) {
+    return _firestore
         .collection(MODEL_CONST.COLLECTION_LIKE)
         .where(MODEL_CONST.FIELD_BLOGID, isEqualTo: blogId)
-        .get();
-    return querySnapshot.size;
+        .snapshots().map((event) => event.size);
   }
 
   Stream<bool> checkLike(String email, String blogId) {

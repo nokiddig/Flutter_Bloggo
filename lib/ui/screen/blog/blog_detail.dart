@@ -1,8 +1,10 @@
+import 'package:blog_app/model/account.dart';
 import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/model/comment.dart';
 import 'package:blog_app/model/like.dart';
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/blog/edit_blog.dart';
+import 'package:blog_app/ui/screen/item/avatar.dart';
 import 'package:blog_app/ui/screen/profile/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
@@ -49,7 +51,9 @@ class _ABlogDetailState extends State<ABlogDetail> {
   BlogViewmodel blogViewmodel = BlogViewmodel();
   LikeViewmodel likeViewmodel = LikeViewmodel();
   CommentViewmodel commentViewmodel = CommentViewmodel();
-
+  AccountViewModel accountViewModel = AccountViewModel();
+  TextEditingController _commentController = TextEditingController();
+  bool _isCommentVisible = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -60,9 +64,8 @@ class _ABlogDetailState extends State<ABlogDetail> {
             future: AccountViewModel().getByEmail(widget.blog.email),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                String? avatar = snapshot.data?.avatarPath;
-                String? name = snapshot.data?.name;
-                String? email = snapshot.data?.email;
+                Account account =
+                    snapshot!.data ?? Account("", "", "", true, 0);
                 return SingleChildScrollView(
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
@@ -71,27 +74,13 @@ class _ABlogDetailState extends State<ABlogDetail> {
                         onTap: () {
                           Route route = MaterialPageRoute(
                             builder: (context) =>
-                                ProfileTab(email: email ?? ""),
+                                ProfileTab(email: account.email ?? ""),
                           );
                           Navigator.push(context, route);
                         },
                         child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          child: CircleAvatar(
-                            child: ClipOval(
-                              child: Image.network(
-                                avatar ?? "",
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Image.asset(
-                                  STRING_CONST.IMAGE_DEFAULT,
-                                ),
-                                width: 200,
-                                height: 200,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
+                            margin: EdgeInsets.only(left: 20),
+                            child: createBloggerAvatar(account, context)),
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 10),
@@ -99,11 +88,11 @@ class _ABlogDetailState extends State<ABlogDetail> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(name ?? "name",
+                            Text(account.name,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontFamily: FONT_CONST.BESTIE.fontFamily)),
-                            Text(email ?? "email"),
+                            Text(account.email),
                           ],
                         ),
                       ),
@@ -114,7 +103,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                                 child: Text("Save"),
                                 value: STRING_CONST.VALUE_SAVE)
                           ];
-                          if (SaveAccount.currentEmail == email) {
+                          if (SaveAccount.currentEmail == account.email) {
                             list.addAll([
                               const PopupMenuItem(
                                 child: Text("Edit"),
@@ -172,7 +161,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                         UI_CONST.DIVIDER2,
                         this.buildReaction(),
                         UI_CONST.DIVIDER2,
-                        buildComment()
+                        if (_isCommentVisible) buildComment(),
                       ],
                     ),
                   );
@@ -187,44 +176,95 @@ class _ABlogDetailState extends State<ABlogDetail> {
     );
   }
 
-  Container buildComment() {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 100, minHeight: 50),
-      child: StreamBuilder(
-        stream: commentViewmodel.getByBlogId(widget.blog.id),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<Comment> list = snapshot.data ?? [];
-            print(list.length);
-            return ListView.builder(
-              itemCount: list.length,
-              itemBuilder: (context, index) => ListTile(
-                leading: CircleAvatar(),
-                title: Text(list[index].content),
-                subtitle: Text("}}"),
+  Widget buildComment() {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              border: Border(
+                  left: BorderSide(width: 1, color: Colors.black12),
+                  right: BorderSide(width: 1, color: Colors.black12))),
+          constraints: BoxConstraints(maxHeight: 100, minHeight: 0),
+          child: StreamBuilder(
+            stream: commentViewmodel.getByBlogId(widget.blog.id),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Comment> list = snapshot.data ?? [];
+                return ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (context, index) => FutureBuilder(
+                      future: accountViewModel.getByEmail(list[index].email),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          Account cmtAccount = snapshot.data!;
+                          return ListTile(
+                            leading: createBloggerAvatar(cmtAccount, context),
+                            title: Text(
+                              cmtAccount.name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(list[index].content),
+                          );
+                        } else
+                          return CircularProgressIndicator();
+                      }),
+                );
+              } else if (snapshot.hasError) {
+                return Text("Read comment Error: ${snapshot.error}");
+              } else
+                return Text("---");
+            },
+          ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 45,
+              width: 230,
+              child: Card(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Type your comment...',
+                    hintStyle: TextStyle(fontSize: 12),
+                  ),
+                  controller: _commentController,
+                ),
               ),
-            );
-          } else if (snapshot.hasError) {
-            return Text("Read comment Error: ${snapshot.error}");
-          } else
-            return Text("---");
-        },
-      ),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  this.submitComment();
+                },
+                child: Text('Submit'))
+          ],
+        ),
+        UI_CONST.SIZEDBOX20
+      ],
     );
+  }
+
+  Future<void> submitComment() async {
+    String content = _commentController.text;
+    Comment comment = Comment("", content, SaveAccount.currentEmail!,
+        Timestamp.fromDate(DateTime.now()), widget.blog.id);
+    await commentViewmodel.add(comment);
+    _commentController.text = "";
   }
 
   Widget buildReaction() {
     return Container(
       padding: EdgeInsets.only(left: 30, right: 30),
-      height: 50,
+      // height: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [buildLikeStream(), VerticalDivider(), buildCommentStream()],
+        children: [buildLikeCount(), VerticalDivider(), buildCommentCount()],
       ),
     );
   }
 
-  Widget buildLikeStream() {
+  Widget buildLikeCount() {
     return Center(
       child: Row(
         children: [
@@ -254,8 +294,8 @@ class _ABlogDetailState extends State<ABlogDetail> {
                 return IconButton(
                     onPressed: () {}, icon: Icon(Icons.favorite_border));
               }),
-          FutureBuilder(
-            future: likeViewmodel.countLike(widget.blog.id),
+          StreamBuilder(
+            stream: likeViewmodel.countLike(widget.blog.id),
             builder: (context, snapshot) => Text(snapshot.data.toString()),
           )
         ],
@@ -263,16 +303,23 @@ class _ABlogDetailState extends State<ABlogDetail> {
     );
   }
 
-  Widget buildCommentStream() {
+  Widget buildCommentCount() {
     return Center(
       child: Row(
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                _isCommentVisible = !_isCommentVisible;
+              });
+            },
             icon: Icon(Icons.comment_outlined),
             color: Colors.blueAccent,
           ),
-          Text("1")
+          StreamBuilder(
+            stream: commentViewmodel.countComment(widget.blog.id),
+            builder: (context, snapshot) => Text(snapshot.data.toString()),
+          )
         ],
       ),
     );

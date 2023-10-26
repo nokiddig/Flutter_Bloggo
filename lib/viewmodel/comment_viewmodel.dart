@@ -24,7 +24,7 @@ class CommentViewmodel extends ViewModel<Comment>{
   @override
   Future<void> add(Comment t) async {
     t.id = await genNewId();
-    await _firestore.collection(MODEL_CONST.COLLECTION_LIKE)
+    await _firestore.collection(MODEL_CONST.COLLECTION_COMMENT)
         .doc(t.id)
         .set(convertToMap(t));
   }
@@ -77,11 +77,10 @@ class CommentViewmodel extends ViewModel<Comment>{
         .snapshots().map((snap) => snap.docs.map((doc) => fromFirestore(doc)).toList());
   }
 
-  Future<int> countComment(String blogId) async {
-    QuerySnapshot querySnapshot = await _firestore
-        .collection(MODEL_CONST.COLLECTION_LIKE)
+  Stream<int> countComment(String blogId) {
+     return _firestore
+        .collection(MODEL_CONST.COLLECTION_COMMENT)
         .where(MODEL_CONST.FIELD_BLOGID, isEqualTo: blogId)
-        .get();
-    return querySnapshot.size;
+        .snapshots().map((event) => event.size,);
   }
 }
