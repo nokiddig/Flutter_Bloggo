@@ -5,7 +5,14 @@ import 'package:blog_app/viewmodel/viewmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CommentViewmodel extends ViewModel<Comment>{
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final CommentViewmodel _instance = CommentViewmodel._internal();
+
+  factory CommentViewmodel() {
+    return _instance;
+  }
+
+  CommentViewmodel._internal();
 
   Future<String> genNewId() async {
     QuerySnapshot querySnapshot = await _firestore
@@ -74,6 +81,7 @@ class CommentViewmodel extends ViewModel<Comment>{
   Stream<List<Comment>> getByBlogId(String blogId) {
     return _firestore.collection(MODEL_CONST.COLLECTION_COMMENT)
         .where(MODEL_CONST.FIELD_BLOGID, isEqualTo: blogId)
+        .orderBy(MODEL_CONST.FIELD_TIME, descending: false)
         .snapshots().map((snap) => snap.docs.map((doc) => fromFirestore(doc)).toList());
   }
 

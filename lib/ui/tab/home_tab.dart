@@ -50,7 +50,7 @@ class Highlight extends StatelessWidget {
     return SizedBox(
       height: 100,
       child: FutureBuilder<List<Blog>>(
-        future: viewmodel.getAll(),
+        future: viewmodel.highlight(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(

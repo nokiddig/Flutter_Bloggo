@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:blog_app/model/account.dart';
 import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/model/comment.dart';
@@ -52,7 +54,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
   LikeViewmodel likeViewmodel = LikeViewmodel();
   CommentViewmodel commentViewmodel = CommentViewmodel();
   AccountViewModel accountViewModel = AccountViewModel();
-  TextEditingController _commentController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController();
   bool _isCommentVisible = false;
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 Account account =
-                    snapshot!.data ?? Account("", "", "", true, 0);
+                    snapshot.data ?? Account("", "", "", true, 0);
                 return SingleChildScrollView(
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
@@ -74,7 +76,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                         onTap: () {
                           Route route = MaterialPageRoute(
                             builder: (context) =>
-                                ProfileTab(email: account.email ?? ""),
+                                ProfileTab(email: account.email),
                           );
                           Navigator.push(context, route);
                         },
@@ -100,18 +102,18 @@ class _ABlogDetailState extends State<ABlogDetail> {
                         itemBuilder: (context) {
                           List<PopupMenuEntry> list = [
                             const PopupMenuItem(
-                                child: Text("Save"),
-                                value: STRING_CONST.VALUE_SAVE)
+                                value: STRING_CONST.VALUE_SAVE,
+                                child: Text("Save"))
                           ];
                           if (SaveAccount.currentEmail == account.email) {
                             list.addAll([
                               const PopupMenuItem(
-                                child: Text("Edit"),
                                 value: STRING_CONST.VALUE_EDIT,
+                                child: Text("Edit"),
                               ),
                               const PopupMenuItem(
-                                child: Text("Delete"),
                                 value: STRING_CONST.VALUE_DELETE,
+                                child: Text("Delete"),
                               ),
                             ]);
                           }
@@ -120,13 +122,13 @@ class _ABlogDetailState extends State<ABlogDetail> {
                         onSelected: (value) {
                           switch (value) {
                             case STRING_CONST.VALUE_DELETE:
-                              this.deleteBlog(context);
+                              deleteBlog(context);
                               break;
                             case STRING_CONST.VALUE_EDIT:
-                              this.editBlog(context);
+                              editBlog(context);
                               break;
                             case STRING_CONST.VALUE_SAVE:
-                              this.saveBlog();
+                              saveBlog();
                               break;
                           }
                         },
@@ -135,14 +137,14 @@ class _ABlogDetailState extends State<ABlogDetail> {
                   ),
                 );
               }
-              return const CircularProgressIndicator();
+              return Center(child: const CircularProgressIndicator());
             },
           ),
           StreamBuilder<Blog?>(
               stream: blogViewmodel.getById(widget.blog.id),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  Blog blogSnap = snapshot!.data!;
+                  Blog blogSnap = snapshot.data!;
                   return Padding(
                     padding: EdgeInsets.only(top: 10, left: 10, right: 10),
                     child: Column(
@@ -159,7 +161,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                         ),
                         UI_CONST.SIZEDBOX10,
                         UI_CONST.DIVIDER2,
-                        this.buildReaction(),
+                        buildReaction(),
                         UI_CONST.DIVIDER2,
                         if (_isCommentVisible) buildComment(),
                       ],
@@ -180,16 +182,21 @@ class _ABlogDetailState extends State<ABlogDetail> {
     return Column(
       children: [
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               border: Border(
-                  left: BorderSide(width: 1, color: Colors.black12),
-                  right: BorderSide(width: 1, color: Colors.black12))),
+                  left: UI_CONST.BORDER_SIDE,
+                  right: UI_CONST.BORDER_SIDE,
+                  bottom: UI_CONST.BORDER_SIDE
+              )),
           constraints: BoxConstraints(maxHeight: 100, minHeight: 0),
           child: StreamBuilder(
             stream: commentViewmodel.getByBlogId(widget.blog.id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<Comment> list = snapshot.data ?? [];
+                if (list.isEmpty) {
+                  return const Text("First comment");
+                }
                 return ListView.builder(
                   itemCount: list.length,
                   itemBuilder: (context, index) => FutureBuilder(
@@ -201,18 +208,19 @@ class _ABlogDetailState extends State<ABlogDetail> {
                             leading: createBloggerAvatar(cmtAccount, context),
                             title: Text(
                               cmtAccount.name,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(list[index].content),
                           );
-                        } else
-                          return CircularProgressIndicator();
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
                       }),
                 );
               } else if (snapshot.hasError) {
                 return Text("Read comment Error: ${snapshot.error}");
               } else
-                return Text("---");
+                return const Text("First comment");
             },
           ),
         ),
@@ -220,12 +228,12 @@ class _ABlogDetailState extends State<ABlogDetail> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               height: 45,
               width: 230,
               child: Card(
                 child: TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Type your comment...',
                     hintStyle: TextStyle(fontSize: 12),
                   ),
@@ -235,7 +243,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  this.submitComment();
+                  submitComment();
                 },
                 child: Text('Submit'))
           ],
@@ -256,7 +264,6 @@ class _ABlogDetailState extends State<ABlogDetail> {
   Widget buildReaction() {
     return Container(
       padding: EdgeInsets.only(left: 30, right: 30),
-      // height: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [buildLikeCount(), VerticalDivider(), buildCommentCount()],
@@ -364,8 +371,9 @@ class _ABlogDetailState extends State<ABlogDetail> {
 
   void saveBlog() {
     Timestamp time = Timestamp.fromDate(DateTime.now());
-    if (SaveAccount.currentEmail != null)
+    if (SaveAccount.currentEmail != null) {
       SaveViewmodel()
           .add(Save(SaveAccount.currentEmail!, widget.blog.id, time));
+    }
   }
 }

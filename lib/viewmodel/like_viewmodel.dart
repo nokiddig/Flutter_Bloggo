@@ -5,7 +5,14 @@ import 'package:blog_app/viewmodel/viewmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LikeViewmodel extends ViewModel<Like>{
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final LikeViewmodel _instance = LikeViewmodel._internal();
+
+  factory LikeViewmodel() {
+    return _instance;
+  }
+
+  LikeViewmodel._internal();
   
   @override
   Future<void> add(Like t) async {

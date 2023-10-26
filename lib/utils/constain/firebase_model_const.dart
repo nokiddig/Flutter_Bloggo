@@ -24,5 +24,10 @@ class MODEL_CONST{
   static const String FIELD_FOLLOWEREMAIL = "followerEmail";
   static const String FIELD_FOLLOWINGEMAIL = "followingEmail";
   static const String FIELD_DESCRIPTION = "description";
+  static const String FIELD_TYPE = "type";
+
+  static const String COLLECTION_NOTIFICATION = "notification";
+
+  static const String FIELD_INFOMATION = "information";
 
 }

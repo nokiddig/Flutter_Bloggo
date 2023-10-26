@@ -2,6 +2,7 @@ import 'package:blog_app/ui/screen/blog/blog_detail.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
 import 'package:blog_app/viewmodel/save_viewmodel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/blog.dart';
@@ -45,7 +46,7 @@ class _SaveTabState extends State<SaveTab> {
                       child: StreamBuilder<Blog?>(
                         stream: blogViewmodel.getById(save.blogId),
                         builder: (context, snapshot) {
-                          Blog blog = snapshot!.data ?? Blog("id", "title", "content", "", "", "");
+                          Blog blog = snapshot!.data ?? Blog("id", "title", "content", "", "", "", Timestamp(0,0));
                           return GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetail(blog: blog),));

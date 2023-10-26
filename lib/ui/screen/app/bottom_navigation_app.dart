@@ -27,7 +27,7 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
   final String _title = "Bloggo";
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeTab(),
-    const CategoryTab(),
+    CategoryTab(),
     const NotificationTab(),
     const MenuTab(),
   ];
