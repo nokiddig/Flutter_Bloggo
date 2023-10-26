@@ -2,6 +2,8 @@ import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
 import 'package:flutter/material.dart';
 
+import 'blog/blog_detail.dart';
+
 class CustomSearch extends SearchDelegate {
   BlogViewmodel blogViewmodel = BlogViewmodel();
 
@@ -46,26 +48,31 @@ class CustomSearch extends SearchDelegate {
                   border: Border.all(),
                   borderRadius: BorderRadius.circular(5)
               ),
-              child: Stack(
-                      children: [
-                        Positioned(
-                            width: 90,
-                            height: 90,
-                            top: 0,
-                            left: 5,
-                            child: Image.network(list[index].image)
-                        ),
-                        Positioned(
-                          top: 10,
-                          left: 100,
-                          child: Text("Blog: ${list[index].title}"),),
-                        Positioned(
-                          top: 50,
-                          left: 100,
-                          child: Text(list[index].content, maxLines: 1,
-                              overflow: TextOverflow.ellipsis,),),
-                      ],
-                    ));
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetail(blog: list[index]),));
+                },
+                child: Stack(
+                        children: [
+                          Positioned(
+                              width: 90,
+                              height: 90,
+                              top: 0,
+                              left: 5,
+                              child: Image.network(list[index].image)
+                          ),
+                          Positioned(
+                            top: 10,
+                            left: 100,
+                            child: Text("Blog: ${list[index].title}"),),
+                          Positioned(
+                            top: 50,
+                            left: 100,
+                            child: Text(list[index].content, maxLines: 1,
+                                overflow: TextOverflow.ellipsis,),),
+                        ],
+                      ),
+              ));
           },
         );
       }

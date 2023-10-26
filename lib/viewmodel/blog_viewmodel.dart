@@ -1,10 +1,16 @@
+import 'dart:html';
+
 import 'package:blog_app/model/blog.dart';
+import 'package:blog_app/model/follow.dart';
+import 'package:blog_app/model/notification.dart';
+import 'package:blog_app/viewmodel/follow_viewmodel.dart';
+import 'package:blog_app/viewmodel/notification_viewmodel.dart';
 import 'package:blog_app/viewmodel/viewmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../utils/constain/firebase_model_const.dart';
 
-class BlogViewmodel extends ViewModel<Blog>{
+class BlogViewmodel extends ViewModel<Blog> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final BlogViewmodel _instance = BlogViewmodel._internal();
 
@@ -15,24 +21,47 @@ class BlogViewmodel extends ViewModel<Blog>{
   BlogViewmodel._internal();
 
   Future<String> genNewId() async {
-    QuerySnapshot querySnapshot = await _firestore
-        .collection(MODEL_CONST.COLLECTION_BLOG)
-        .get();
+    QuerySnapshot querySnapshot =
+        await _firestore.collection(MODEL_CONST.COLLECTION_BLOG).get();
     int id = 0;
     querySnapshot.docs.forEach((element) {
-      if(id < int.parse(element.id)){
+      if (id < int.parse(element.id)) {
         id = int.parse(element.id);
       }
     });
-    id ++;
+    id++;
     return id.toString();
   }
 
   @override
   Future<void> add(Blog t) async {
-    t.id = await genNewId();
-    _firestore.collection(MODEL_CONST.COLLECTION_BLOG).doc(t.id)
-        .set(convertToMap(t));
+    try {
+      t.id = await genNewId();
+      await _firestore
+          .collection(MODEL_CONST.COLLECTION_BLOG)
+          .doc(t.id)
+          .set(convertToMap(t));
+    } catch (e) {
+      return;
+    }
+    FollowViewmodel followViewmodel = FollowViewmodel();
+    DateTime now = DateTime.now();
+    int followerCount = await followViewmodel.countFollower(t.email);
+    FollowViewmodel()
+        .getFollowerByEmail(t.email)
+        .take(followerCount)
+        .listen((event) {
+      if (event.length == followerCount) {
+        event.forEach((element) {
+          NotificationViewmodel().add(Noti(
+              'Post new blog: ${t.title}',
+              element.followerEmail,
+              MODEL_CONST.COLLECTION_BLOG,
+              Timestamp.fromDate(DateTime.now()),
+              t.id));
+        });
+      }
+    });
   }
 
   @override
@@ -49,7 +78,10 @@ class BlogViewmodel extends ViewModel<Blog>{
   @override
   Future<void> delete(String str) async {
     try {
-      await FirebaseFirestore.instance.collection(MODEL_CONST.COLLECTION_BLOG).doc(str).delete();
+      await FirebaseFirestore.instance
+          .collection(MODEL_CONST.COLLECTION_BLOG)
+          .doc(str)
+          .delete();
     } catch (e) {
       print('Lỗi khi xóa tài liệu: $e');
     }
@@ -57,7 +89,9 @@ class BlogViewmodel extends ViewModel<Blog>{
 
   @override
   Future<void> edit(Blog t) async {
-    _firestore.collection(MODEL_CONST.COLLECTION_BLOG).doc(t.id)
+    _firestore
+        .collection(MODEL_CONST.COLLECTION_BLOG)
+        .doc(t.id)
         .set(convertToMap(t));
   }
 
@@ -65,19 +99,20 @@ class BlogViewmodel extends ViewModel<Blog>{
   Blog fromFirestore(DocumentSnapshot<Object?> doc) {
     final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Blog(
-        doc.id,
-        data[MODEL_CONST.FIELD_TITLE],
-        data[MODEL_CONST.FIELD_CONTENT],
-        data[MODEL_CONST.FIELD_IMAGE],
-        data[MODEL_CONST.FIELD_EMAIL],
-        data[MODEL_CONST.FIELD_CATEGORYID],
+      doc.id,
+      data[MODEL_CONST.FIELD_TITLE],
+      data[MODEL_CONST.FIELD_CONTENT],
+      data[MODEL_CONST.FIELD_IMAGE],
+      data[MODEL_CONST.FIELD_EMAIL],
+      data[MODEL_CONST.FIELD_CATEGORYID],
     );
   }
 
   @override
   Future<List<Blog>> getAll() async {
     List<Blog> all = [];
-    QuerySnapshot querySnapshot = await _firestore.collection(MODEL_CONST.COLLECTION_BLOG).get();
+    QuerySnapshot querySnapshot =
+        await _firestore.collection(MODEL_CONST.COLLECTION_BLOG).get();
     querySnapshot.docs.forEach((element) {
       all.add(fromFirestore(element));
     });
@@ -87,25 +122,43 @@ class BlogViewmodel extends ViewModel<Blog>{
   @override
   Future<List<Blog>> search(String title) async {
     List<Blog> result = [];
-    QuerySnapshot querySnapshot = await _firestore.collection(MODEL_CONST.COLLECTION_BLOG).get();
+    QuerySnapshot querySnapshot =
+        await _firestore.collection(MODEL_CONST.COLLECTION_BLOG).get();
     querySnapshot.docs.forEach((element) {
       Blog blog = fromFirestore(element);
-      if (blog.title.toLowerCase().contains(title.toLowerCase())){
+      if (blog.title.toLowerCase().contains(title.toLowerCase())) {
         result.add(blog);
       }
     });
     return result;
   }
 
-  Stream<List<Blog>> getPostsByEmail(String email) {
-    return _firestore.collection(MODEL_CONST.COLLECTION_BLOG)
+  Stream<List<Blog>> getBlogsByEmail(String email) {
+    return _firestore
+        .collection(MODEL_CONST.COLLECTION_BLOG)
         .where(MODEL_CONST.FIELD_EMAIL, isEqualTo: email)
-        .snapshots().map((snapshot) {
-          return snapshot.docs.map((doc) {
-            Blog blog = fromFirestore(doc);
-            return blog;
-          }
-        ).toList();});
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        Blog blog = fromFirestore(doc);
+        return blog;
+      }).toList();
+    });
+  }
+
+  @override
+  Future<List<Blog>> getBlogByCategory(String categoryId) async {
+    List<Blog> result = [];
+    QuerySnapshot querySnapshot =
+      await _firestore.collection(MODEL_CONST.COLLECTION_BLOG)
+        .where(MODEL_CONST.FIELD_CATEGORYID, isEqualTo: categoryId)
+        .orderBy(FieldPath.documentId, descending: true)
+        .get();
+    querySnapshot.docs.forEach((element) {
+      Blog blog = fromFirestore(element);
+        result.add(blog);
+    });
+    return result;
   }
 
   Stream<Blog?> getById(String id) {
@@ -122,5 +175,4 @@ class BlogViewmodel extends ViewModel<Blog>{
       return Stream.error(e);
     }
   }
-
 }

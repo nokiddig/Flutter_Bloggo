@@ -50,8 +50,8 @@ class _CreateBlogState extends State<CreateBlog> {
             ),
             UI_CONST.SIZEDBOX15,
             TextFormField(
-              maxLines: null,
-              minLines: 2,
+              maxLines: 3,
+              minLines: 1,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 hintText: "Content",

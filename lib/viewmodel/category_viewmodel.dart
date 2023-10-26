@@ -95,5 +95,4 @@ class CategoryViewmodel extends ViewModel<Category>{
       return Stream.error(e);
     }
   }
-
 }

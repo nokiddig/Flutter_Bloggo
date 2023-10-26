@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/account.dart';
 
 class AccountViewModel extends ViewModel<Account>{
-
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final AccountViewModel _instance = AccountViewModel._internal();
 
