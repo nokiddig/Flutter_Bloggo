@@ -1,4 +1,5 @@
 import 'package:blog_app/model/blog.dart';
+import 'package:blog_app/model/comment.dart';
 import 'package:blog_app/model/like.dart';
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/ui/screen/blog/edit_blog.dart';
@@ -6,6 +7,7 @@ import 'package:blog_app/ui/screen/profile/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
+import 'package:blog_app/viewmodel/comment_viewmodel.dart';
 import 'package:blog_app/viewmodel/like_viewmodel.dart';
 import 'package:blog_app/viewmodel/save_viewmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,13 +26,13 @@ class BlogDetail extends StatefulWidget {
 class _BlogDetailState extends State<BlogDetail> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 30,
-          ),
-          body: Hero(
-              tag: "blog-detail-${widget.blog.id}",
-              child: ABlogDetail(widget.blog)));
+    return Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 30,
+        ),
+        body: Hero(
+            tag: "blog-detail-${widget.blog.id}",
+            child: ABlogDetail(widget.blog)));
   }
 }
 
@@ -45,8 +47,8 @@ class ABlogDetail extends StatefulWidget {
 
 class _ABlogDetailState extends State<ABlogDetail> {
   BlogViewmodel blogViewmodel = BlogViewmodel();
-
   LikeViewmodel likeViewmodel = LikeViewmodel();
+  CommentViewmodel commentViewmodel = CommentViewmodel();
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +172,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                         UI_CONST.DIVIDER2,
                         this.buildReaction(),
                         UI_CONST.DIVIDER2,
-                        
+                        buildComment()
                       ],
                     ),
                   );
@@ -185,27 +187,50 @@ class _ABlogDetailState extends State<ABlogDetail> {
     );
   }
 
+  Container buildComment() {
+    return Container(
+      constraints: BoxConstraints(maxHeight: 100, minHeight: 50),
+      child: StreamBuilder(
+        stream: commentViewmodel.getByBlogId(widget.blog.id),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Comment> list = snapshot.data ?? [];
+            print(list.length);
+            return ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) => ListTile(
+                leading: CircleAvatar(),
+                title: Text(list[index].content),
+                subtitle: Text("}}"),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text("Read comment Error: ${snapshot.error}");
+          } else
+            return Text("---");
+        },
+      ),
+    );
+  }
+
   Widget buildReaction() {
     return Container(
       padding: EdgeInsets.only(left: 30, right: 30),
       height: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildLikeStream(),
-          VerticalDivider(),
-          buildCommentStream()
-        ],
+        children: [buildLikeStream(), VerticalDivider(), buildCommentStream()],
       ),
     );
   }
+
   Widget buildLikeStream() {
     return Center(
       child: Row(
         children: [
           StreamBuilder(
-              stream:
-                  likeViewmodel.checkLike(SaveAccount.currentEmail!, widget.blog.id),
+              stream: likeViewmodel.checkLike(
+                  SaveAccount.currentEmail!, widget.blog.id),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   bool isLike = snapshot.data ?? false;
@@ -229,14 +254,15 @@ class _ABlogDetailState extends State<ABlogDetail> {
                 return IconButton(
                     onPressed: () {}, icon: Icon(Icons.favorite_border));
               }),
-              FutureBuilder(
-                future: likeViewmodel.countLike(widget.blog.id),
-                builder: (context, snapshot) => Text(snapshot.data.toString()),
-              )
+          FutureBuilder(
+            future: likeViewmodel.countLike(widget.blog.id),
+            builder: (context, snapshot) => Text(snapshot.data.toString()),
+          )
         ],
       ),
     );
   }
+
   Widget buildCommentStream() {
     return Center(
       child: Row(
@@ -251,6 +277,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
       ),
     );
   }
+
   void deleteBlog(BuildContext context) {
     showDialog<void>(
       context: context,
@@ -280,12 +307,14 @@ class _ABlogDetailState extends State<ABlogDetail> {
       },
     );
   }
+
   void editBlog(BuildContext context) {
     Route route = MaterialPageRoute(
       builder: (context) => EditBlog(widget.blog),
     );
     Navigator.push(context, route);
   }
+
   void saveBlog() {
     Timestamp time = Timestamp.fromDate(DateTime.now());
     if (SaveAccount.currentEmail != null)

@@ -1,16 +1,19 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Comment{
   String _id;
   String _content;
   String _email;
-  String _time;
+  Timestamp _time;
   String _blogId;
 
   Comment(this._id, this._content, this._email, this._time, this._blogId);
 
-  String get time => _time;
 
-  set time(String value) {
+  Timestamp get time => _time;
+
+  set time(Timestamp value) {
     _time = value;
   }
 
