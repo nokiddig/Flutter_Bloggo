@@ -11,6 +11,7 @@ import 'package:blog_app/ui/screen/profile/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
+import 'package:blog_app/viewmodel/category_viewmodel.dart';
 import 'package:blog_app/viewmodel/comment_viewmodel.dart';
 import 'package:blog_app/viewmodel/like_viewmodel.dart';
 import 'package:blog_app/viewmodel/save_viewmodel.dart';
@@ -18,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/save.dart';
+import '../item/list_blog.dart';
 
 class BlogDetail extends StatefulWidget {
   const BlogDetail({super.key, required this.blog});
@@ -137,7 +139,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                   ),
                 );
               }
-              return const CircularProgressIndicator();
+              return Center(child: const CircularProgressIndicator());
             },
           ),
           StreamBuilder<Blog?>(
@@ -159,11 +161,13 @@ class _ABlogDetailState extends State<ABlogDetail> {
                           blogSnap.content,
                           style: FONT_CONST.CONTENT_BLOG,
                         ),
+                        buildTagCategory(blogSnap.categoryId),
                         UI_CONST.SIZEDBOX10,
                         UI_CONST.DIVIDER2,
                         buildReaction(),
                         UI_CONST.DIVIDER2,
                         if (_isCommentVisible) buildComment(),
+                        UI_CONST.SIZEDBOX20
                       ],
                     ),
                   );
@@ -213,7 +217,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                             subtitle: Text(list[index].content),
                           );
                         } else {
-                          return CircularProgressIndicator();
+                          return Center(child: CircularProgressIndicator());
                         }
                       }),
                 );
@@ -263,7 +267,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
 
   Widget buildReaction() {
     return Container(
-      padding: EdgeInsets.only(left: 30, right: 30),
+      margin: EdgeInsets.only(left: 30, right: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [buildLikeCount(), VerticalDivider(), buildCommentCount()],

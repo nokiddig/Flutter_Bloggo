@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/model/follow.dart';
 import 'package:blog_app/model/notification.dart';
@@ -71,7 +69,8 @@ class BlogViewmodel extends ViewModel<Blog> {
       MODEL_CONST.FIELD_IMAGE: t.image,
       MODEL_CONST.FIELD_TITLE: t.title,
       MODEL_CONST.FIELD_CONTENT: t.content,
-      MODEL_CONST.FIELD_CATEGORYID: t.categoryId
+      MODEL_CONST.FIELD_CATEGORYID: t.categoryId,
+      MODEL_CONST.FIELD_TIME: t.time
     };
   }
 
@@ -112,7 +111,9 @@ class BlogViewmodel extends ViewModel<Blog> {
   Future<List<Blog>> getAll() async {
     List<Blog> all = [];
     QuerySnapshot querySnapshot =
-        await _firestore.collection(MODEL_CONST.COLLECTION_BLOG).get();
+        await _firestore.collection(MODEL_CONST.COLLECTION_BLOG)
+            .orderBy(MODEL_CONST.FIELD_TIME, descending: true)
+            .get();
     querySnapshot.docs.forEach((element) {
       all.add(fromFirestore(element));
     });
@@ -137,6 +138,7 @@ class BlogViewmodel extends ViewModel<Blog> {
     return _firestore
         .collection(MODEL_CONST.COLLECTION_BLOG)
         .where(MODEL_CONST.FIELD_EMAIL, isEqualTo: email)
+        .orderBy(FieldPath.documentId, descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {
@@ -174,5 +176,18 @@ class BlogViewmodel extends ViewModel<Blog> {
       print('Lỗi khi truy vấn Firestore: $e');
       return Stream.error(e);
     }
+  }
+
+  @override
+  Future<List<Blog>> highlight() async {
+    List<Blog> result = [];
+    QuerySnapshot querySnapshot =
+    await _firestore.collection(MODEL_CONST.COLLECTION_BLOG)
+        .orderBy(MODEL_CONST.FIELD_TIME, descending: false)
+        .get();
+    querySnapshot.docs.forEach((element) {
+      result.add(fromFirestore(element));
+    });
+    return result;
   }
 }
