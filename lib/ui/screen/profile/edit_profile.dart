@@ -127,7 +127,7 @@ class _EditProfileState extends State<EditProfile> {
               } else if (snapshot.hasError) {
                 return Text("Error: " + snapshot.error.toString());
               } else {
-                return const CircularProgressIndicator();
+                return Center(child: const CircularProgressIndicator());
               }
             }),
       ),

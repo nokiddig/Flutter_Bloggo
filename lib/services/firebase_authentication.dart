@@ -29,7 +29,6 @@ Future<bool> signInWithEmailAndPassword(String email, String password) async {
 Future<bool> signOut() async {
   try {
     await FirebaseAuth.instance.signOut();
-
   } catch (e){
     return false;
   }

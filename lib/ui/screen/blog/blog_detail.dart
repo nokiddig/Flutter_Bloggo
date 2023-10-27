@@ -252,7 +252,6 @@ class _ABlogDetailState extends State<ABlogDetail> {
                 child: Text('Submit'))
           ],
         ),
-        UI_CONST.SIZEDBOX20
       ],
     );
   }
@@ -379,5 +378,21 @@ class _ABlogDetailState extends State<ABlogDetail> {
       SaveViewmodel()
           .add(Save(SaveAccount.currentEmail!, widget.blog.id, time));
     }
+  }
+
+  Widget buildTagCategory(String categoryId) {
+    CategoryViewmodel categoryViewmodel = CategoryViewmodel();
+    return StreamBuilder(
+        stream: categoryViewmodel.getById(categoryId),
+        builder: (context, snapshot) => Container(
+          alignment: Alignment.centerLeft,
+          child: TextButton(
+              onPressed: (){
+                Route route = MaterialPageRoute(builder: (context) =>
+                  ListViewBlogScreen(blogViewmodel.getBlogByCategory(categoryId)));
+                Navigator.push(context, route);
+              },
+              child: Text('#${snapshot.data?.name.toLowerCase()}')),
+        ),);
   }
 }

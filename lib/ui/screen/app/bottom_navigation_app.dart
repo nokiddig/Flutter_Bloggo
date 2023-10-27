@@ -27,8 +27,8 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
   final String _title = "Bloggo";
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeTab(),
-    const CategoryTab(),
-    const NotificationTab(),
+    CategoryTab(),
+    //const NotificationTab(),
     const MenuTab(),
   ];
 
@@ -49,17 +49,20 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
           ),
           title:  Text(_title, style: FONT_CONST.FONT_APP,),
           actions: [
-            CircleAvatar(
-              backgroundColor: Colors.transparent,
-              child: IconButton(
-                onPressed: () {
-                  showSearch(
-                    context: context,
-                    delegate: CustomSearch(),
-                  );
-                },
-                icon: Icon(Icons.search),
-                color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.only(right: 8, bottom: 8),
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: IconButton(
+                  onPressed: () {
+                    showSearch(
+                      context: context,
+                      delegate: CustomSearch(),
+                    );
+                  },
+                  icon: Icon(Icons.search),
+                  color: Colors.black,
+                ),
               ),
             )
           ],
@@ -68,15 +71,15 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
             width: MediaQuery.of(context).size.width,
             child: _widgetOptions[_selectedView]),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.amber,
+          backgroundColor: COLOR_CONST.BLUE_DARK.withOpacity(0.95),
           iconSize: 20,
           selectedFontSize: 10,
           currentIndex: _selectedIndex,
           items: [
             bottomNavItem("Home", Icons.home_outlined, Icons.home),
             bottomNavItem("Category", Icons.category_outlined, Icons.category),
-            bottomNavItem("Notifications",
-                Icons.notification_important_outlined, Icons.notifications),
+            // bottomNavItem("Notifications",
+            //     Icons.notification_important_outlined, Icons.notifications),
             bottomNavItem("Menu", Icons.menu, Icons.menu_open),
           ],
           onTap: (value) {
@@ -86,6 +89,7 @@ class _BottomNavigationAppState extends State<BottomNavigationApp> {
             });
           },
           selectedItemColor: Colors.amber[800],
+          unselectedItemColor: Colors.white,
         ),
       ),
     );

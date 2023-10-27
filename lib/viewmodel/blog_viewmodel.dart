@@ -104,6 +104,7 @@ class BlogViewmodel extends ViewModel<Blog> {
       data[MODEL_CONST.FIELD_IMAGE],
       data[MODEL_CONST.FIELD_EMAIL],
       data[MODEL_CONST.FIELD_CATEGORYID],
+      data[MODEL_CONST.FIELD_TIME]
     );
   }
 

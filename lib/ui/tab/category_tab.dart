@@ -1,9 +1,17 @@
 import 'package:blog_app/model/category.dart';
+import 'package:blog_app/ui/screen/item/list_blog.dart';
+import 'package:blog_app/viewmodel/blog_viewmodel.dart';
 import 'package:blog_app/viewmodel/category_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class CategoryTab extends StatefulWidget {
-  const CategoryTab({super.key});
+  static final CategoryTab _instance = CategoryTab._internal();
+
+  factory CategoryTab() {
+    return _instance;
+  }
+
+  CategoryTab._internal({super.key});
 
   @override
   State<CategoryTab> createState() => _CategoryTabState();
@@ -11,6 +19,8 @@ class CategoryTab extends StatefulWidget {
 
 class _CategoryTabState extends State<CategoryTab> {
   CategoryViewmodel categoryViewmodel = CategoryViewmodel();
+  BlogViewmodel blogViewmodel = BlogViewmodel();
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,21 +37,28 @@ class _CategoryTabState extends State<CategoryTab> {
               ),
               itemCount: list.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(list[index].image),
-                        fit: BoxFit.fill,
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, 
+                        MaterialPageRoute(builder: (context) 
+                        => ListViewBlogScreen(blogViewmodel.getBlogByCategory(list[index].id)),));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(list[index].image),
+                          fit: BoxFit.fill,
+                        ),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Center(
+                      child: Text(
+                        list[index].name,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
                       ),
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Center(
-                    child: Text(
-                      list[index].name,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
                     ),
                   ),
                 );
@@ -52,7 +69,7 @@ class _CategoryTabState extends State<CategoryTab> {
             return Text("Loi doc category ${snapshot.error}");
           }
           else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         }
       ),

@@ -2,6 +2,7 @@ import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:blog_app/viewmodel/blog_viewmodel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CreateBlog extends StatefulWidget {
@@ -133,6 +134,6 @@ class _CreateBlogState extends State<CreateBlog> {
     String content = _controllerContent.text;
     String image = _controllerImage.text;
     BlogViewmodel viewmodel = BlogViewmodel();
-    viewmodel.add(Blog("", title, content, image, SaveAccount.currentEmail?? "", "1"));
+    viewmodel.add(Blog("", title, content, image, SaveAccount.currentEmail?? '', '1', Timestamp.fromDate(DateTime.now())));
   }
 }
