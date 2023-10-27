@@ -16,6 +16,4 @@ class FirebaseMessagingSV{
     print('User granted permission: ${settings.authorizationStatus}');
   }
 
-
-
 }

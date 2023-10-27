@@ -106,16 +106,20 @@ class _EditBlogState extends State<EditBlog> {
               value: _selectedValue,
               items: <DropdownMenuItem<String>>[
                 DropdownMenuItem<String>(
-                  value: 'option1',
-                  child: Text('Option 1'),
+                  value: '1',
+                  child: Text('Technology'),
                 ),
                 DropdownMenuItem<String>(
-                  value: 'option2',
-                  child: Text('Option 2'),
+                  value: '2',
+                  child: Text('Science'),
                 ),
                 DropdownMenuItem<String>(
-                  value: 'option3',
-                  child: Text('Option 3'),
+                  value: '3',
+                  child: Text('Android'),
+                ),
+                DropdownMenuItem<String>(
+                  value: '4',
+                  child: Text('IOS'),
                 ),
               ],
               onChanged: (value) {
@@ -147,6 +151,7 @@ class _EditBlogState extends State<EditBlog> {
     String content = _controllerContent.text;
     String image = _controllerImage.text;
     BlogViewmodel viewmodel = BlogViewmodel();
-    viewmodel.edit(Blog(widget.blog.id, title, content, image, SaveAccount.currentEmail?? "", "1", Timestamp.fromDate(DateTime.now())));
+    viewmodel.edit(Blog(widget.blog.id, title, content, image, SaveAccount.currentEmail?? ""
+        , _selectedValue??'1', Timestamp.fromDate(DateTime.now())));
   }
 }

@@ -10,7 +10,6 @@ class Account {
 
   Account.clone(this._email, this._name);
 
-
   Account(this._name, this._email, this._avatarPath, this._status, this._gender);
 
   factory Account.fromFirestore(DocumentSnapshot doc) {

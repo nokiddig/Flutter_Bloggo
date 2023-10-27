@@ -17,8 +17,8 @@ class _CreateBlogState extends State<CreateBlog> {
   final TextEditingController _controllerContent = TextEditingController();
   final TextEditingController _controllerImage = TextEditingController();
   String? _selectedValue;
-
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,16 +94,20 @@ class _CreateBlogState extends State<CreateBlog> {
              value: _selectedValue,
                 items: <DropdownMenuItem<String>>[
                   DropdownMenuItem<String>(
-                    value: 'option1',
-                    child: Text('Option 1'),
+                    value: '1',
+                    child: Text('Technology'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'option2',
-                    child: Text('Option 2'),
+                    value: '2',
+                    child: Text('Science'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'option3',
-                    child: Text('Option 3'),
+                    value: '3',
+                    child: Text('Android'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: '4',
+                    child: Text('IOS'),
                   ),
                 ],
                 onChanged: (value) {
@@ -134,6 +138,7 @@ class _CreateBlogState extends State<CreateBlog> {
     String content = _controllerContent.text;
     String image = _controllerImage.text;
     BlogViewmodel viewmodel = BlogViewmodel();
-    viewmodel.add(Blog("", title, content, image, SaveAccount.currentEmail?? '', '1', Timestamp.fromDate(DateTime.now())));
+    viewmodel.add(Blog("", title, content, image, SaveAccount.currentEmail?? ''
+        , _selectedValue??'1', Timestamp.fromDate(DateTime.now())));
   }
 }

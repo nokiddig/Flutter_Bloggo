@@ -23,18 +23,18 @@ class _MenuTabState extends State<MenuTab> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         UI_CONST.DIVIDER1,
-        ListTile(
-          leading: UI_CONST.ICON_DARKMODE,
-          title: Text(STRING_CONST.DARKMODE),
-          onTap: (){},
-          trailing: Switch(
-            value: _isDark,
-            onChanged: (bool value) {
-              setState(() {
-                _isDark = value;
-              });
-            },),
-        ),
+        // ListTile(
+        //   leading: UI_CONST.ICON_DARKMODE,
+        //   title: Text(STRING_CONST.DARKMODE),
+        //   onTap: (){},
+        //   trailing: Switch(
+        //     value: _isDark,
+        //     onChanged: (bool value) {
+        //       setState(() {
+        //         _isDark = value;
+        //       });
+        //     },),
+        // ),
         UI_CONST.DIVIDER1,
         ListTile(
           style: ListTileStyle.drawer,

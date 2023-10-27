@@ -15,10 +15,6 @@ class BottomNavigationApp extends StatefulWidget {
 
   @override
   State<BottomNavigationApp> createState() => _BottomNavigationAppState();
-
-  void updateState(int index) {
-    _stateKey.currentState?.updateIndexView(index);
-  }
 }
 
 class _BottomNavigationAppState extends State<BottomNavigationApp> {

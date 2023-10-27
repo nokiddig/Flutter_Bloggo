@@ -177,9 +177,9 @@ class _ProfileInfoRow extends StatelessWidget {
   final String email;
   FollowViewmodel followViewmodel = FollowViewmodel();
   final List<ProfileInfoItem> _items = const [
-    ProfileInfoItem("Posts", 900),
-    ProfileInfoItem("Followers", 100),
-    ProfileInfoItem("Following", 200),
+    ProfileInfoItem("Posts", 3),
+    ProfileInfoItem("Followers", 1),
+    ProfileInfoItem("Following", 1),
   ];
 
   _ProfileInfoRow(this.email);

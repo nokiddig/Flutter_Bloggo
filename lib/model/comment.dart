@@ -10,7 +10,6 @@ class Comment{
 
   Comment(this._id, this._content, this._email, this._time, this._blogId);
 
-
   Timestamp get time => _time;
 
   set time(Timestamp value) {

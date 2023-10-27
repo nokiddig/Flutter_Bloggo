@@ -16,6 +16,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,80 +34,120 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                child: const Text(
-                  "Create\nAccount",
-                  style: TextStyle(color: Colors.white, fontSize: 33),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    "Create\nAccount",
+                    style: TextStyle(color: Colors.white, fontSize: 33),
+                  ),
                 ),
-              ),
-              UI_CONST.SIZEDBOX35,
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                    hintText: "Name",
-                    hintStyle: UI_CONST.TEXTSTYLE_WHITE,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: COLOR_CONST.WHITE,
-                      ),
-                    )),
-              ),
-              UI_CONST.SIZEDBOX25,
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                    hintText: "Email",
-                    hintStyle: UI_CONST.TEXTSTYLE_WHITE,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: COLOR_CONST.WHITE,
-                      ),
-                    )),
-              ),
-              UI_CONST.SIZEDBOX25,
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                    hintText: "Password",
-                    hintStyle: UI_CONST.TEXTSTYLE_WHITE,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: COLOR_CONST.WHITE,
-                      ),
-                    )),
-              ),
-              UI_CONST.SIZEDBOX35,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        //singup(context);
-                      },
-                      child: Text(
-                        "Sign Up",
-                        style:
-                            TextStyle(color: COLOR_CONST.WHITE, fontSize: 30),
+                UI_CONST.SIZEDBOX35,
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                      hintText: "Name",
+                      hintStyle: UI_CONST.TEXTSTYLE_WHITE,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: COLOR_CONST.WHITE,
+                        ),
                       )),
-                  CircleAvatar(
-                      radius: 30,
-                      backgroundColor: const Color(0xff4c505b),
-                      child: IconButton(
-                          onPressed: () {
+                  validator: (value) {
+                    RegExp regex = RegExp(r'^.{2,32}$');
+                    if(regex.hasMatch(value ?? "")){
+                      return null;
+                    }
+                    else {
+                      return "Between 8-32 characters.";
+                    }
+                  },
+                ),
+                UI_CONST.SIZEDBOX25,
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                      hintText: "Email",
+                      hintStyle: UI_CONST.TEXTSTYLE_WHITE,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: COLOR_CONST.WHITE,
+                        ),
+                      )),
+                  validator: (value) {
+                    RegExp regex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                    if(regex.hasMatch(value ?? "")){
+                      return null;
+                    }
+                    else {
+                      return "Input your email.";
+                    }
+                  },
+                ),
+                UI_CONST.SIZEDBOX25,
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      hintText: "Password",
+                      hintStyle: UI_CONST.TEXTSTYLE_WHITE,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: COLOR_CONST.WHITE,
+                        ),
+                      )),
+                  validator: (value) {
+                    RegExp regex = RegExp(r'^.{8,}$');
+                    if(regex.hasMatch(value ?? "")){
+                      return null;
+                    }
+                    else {
+                      return "At least 8 characters.";
+                    }
+                  },
+                ),
+                UI_CONST.SIZEDBOX35,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
                             singup(context);
-                          },
-                          icon: Icon(Icons.arrow_forward,
-                            color: COLOR_CONST.WHITE,)))
-                ],
-              )
-            ],
+                          }
+                        },
+                        child: Text(
+                          "Sign Up",
+                          style:
+                              TextStyle(color: COLOR_CONST.WHITE, fontSize: 30),
+                        )),
+                    CircleAvatar(
+                        radius: 30,
+                        backgroundColor: const Color(0xff4c505b),
+                        child: IconButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Processing Data')),
+                                );
+                                singup(context);
+                              }
+                            },
+                            icon: Icon(Icons.arrow_forward,
+                              color: COLOR_CONST.WHITE,)))
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -147,6 +189,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void registerAccount(String email, String password, String name) {
     AccountViewModel viewModel = AccountViewModel();
     viewModel.add(Account.clone(email, name));
-
   }
 }

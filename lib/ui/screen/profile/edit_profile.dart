@@ -35,6 +35,7 @@ class _EditProfileState extends State<EditProfile> {
                 Account account = snapshot.data!;
                 _nameController.text = account.name;
                 _avatarController.text = account.avatarPath;
+                selectedGender = account.gender;
                 return Column(
                   children: [
                     const Text("Preview"),
