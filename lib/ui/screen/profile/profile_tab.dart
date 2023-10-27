@@ -37,8 +37,8 @@ class _ProfileTabState extends State<ProfileTab> {
                 builder: (context, snapshot) {
                   return Column(
                     children: [
-                      Container(height: 200, child: _TopPortion(snapshot.data)),
-                      Container(
+                      SizedBox(height: 200, child: _TopPortion(snapshot.data)),
+                      SizedBox(
                         height: 220,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -56,7 +56,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    this.genFollowButton(widget.email),
+                                    genFollowButton(widget.email),
                                     const SizedBox(width: 16.0),
                                     FloatingActionButton.extended(
                                       onPressed: () {},
@@ -144,7 +144,7 @@ class _ProfileTabState extends State<ProfileTab> {
         IconData iconData = Icons.person_add_alt_1;
         if (snapshot.hasData){
           if (snapshot.data == true){
-            state = snapshot!.data!;
+            state = snapshot.data!;
             followText = "Followed";
             backgroundColor = Colors.green;
             iconData = Icons.person_2_outlined;
