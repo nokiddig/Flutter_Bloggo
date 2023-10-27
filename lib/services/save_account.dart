@@ -8,10 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
   String? _pass;
   bool? _isCheckedSave;
   late SharedPreferences _preferences;
-  static SaveAccount _instance = SaveAccount._internal();
+  static final SaveAccount _instance = SaveAccount._internal();
 
   factory SaveAccount(){
-    _instance ??= SaveAccount._internal();
     return _instance!;
   }
 

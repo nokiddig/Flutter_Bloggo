@@ -63,7 +63,7 @@ class SaveViewmodel extends ViewModel<Save>{
   Stream<List<Save>> getByEmail() {
     return _firestore.collection(MODEL_CONST.COLLECTION_SAVE)
         .where(MODEL_CONST.FIELD_EMAIL,isEqualTo: SaveAccount.currentEmail)
-        .orderBy(MODEL_CONST.FIELD_TIME, descending: false)
+        .orderBy(MODEL_CONST.FIELD_TIME, descending: true)
         .snapshots()
         .map((snapshot) {
           return snapshot.docs.map((e) {

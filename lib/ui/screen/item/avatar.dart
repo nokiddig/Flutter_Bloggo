@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 
 import '../../../model/account.dart';
 
-CircleAvatar createBloggerAvatar(Account account, BuildContext context){
+Widget createBloggerAvatar(Account account, BuildContext context){
   return CircleAvatar(
       backgroundImage: NetworkImage(account.avatarPath == ""
           ? STRING_CONST.NETWORKIMAGE_DEFAULT
-          : account.avatarPath),
+          : account.avatarPath,
+      ),
     child: GestureDetector(
       onTap: (){
         Route route = MaterialPageRoute(builder: (context) => ProfileTab(email: account.email),);
