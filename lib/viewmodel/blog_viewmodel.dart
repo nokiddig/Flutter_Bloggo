@@ -44,22 +44,22 @@ class BlogViewmodel extends ViewModel<Blog> {
     }
     FollowViewmodel followViewmodel = FollowViewmodel();
     DateTime now = DateTime.now();
-    int followerCount = await followViewmodel.countFollower(t.email);
-    FollowViewmodel()
-        .getFollowerByEmail(t.email)
-        .take(followerCount)
-        .listen((event) {
-      if (event.length == followerCount) {
-        event.forEach((element) {
-          NotificationViewmodel().add(Noti(
-              'Post new blog: ${t.title}',
-              element.followerEmail,
-              MODEL_CONST.COLLECTION_BLOG,
-              Timestamp.fromDate(DateTime.now()),
-              t.id));
-        });
-      }
-    });
+    //int followerCount = await followViewmodel.countFollower(t.email);
+    // FollowViewmodel()
+    //     .getFollowerByEmail(t.email)
+    //     .take(followerCount)
+    //     .listen((event) {
+    //   if (event.length == followerCount) {
+    //     event.forEach((element) {
+    //       NotificationViewmodel().add(Noti(
+    //           'Post new blog: ${t.title}',
+    //           element.followerEmail,
+    //           MODEL_CONST.COLLECTION_BLOG,
+    //           Timestamp.fromDate(DateTime.now()),
+    //           t.id));
+    //     });
+    //   }
+    // });
   }
 
   @override

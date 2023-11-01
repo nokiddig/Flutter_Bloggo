@@ -73,8 +73,25 @@ class FollowViewmodel extends ViewModel<Follow>{
     });
   }
 
-  Future<int> countFollower(email){
-    return getFollowerByEmail(email).length;
+  Stream<int> countFollower(email){
+    return _firestore.collection(MODEL_CONST.COLLECTION_FOLLOW)
+        .where(MODEL_CONST.FIELD_FOLLOWINGEMAIL, isEqualTo: email)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((e) {
+        return fromFirestore(e);
+      }).toList().length;
+    });
+  }
+  Stream<int> countFollowing(email){
+    return _firestore.collection(MODEL_CONST.COLLECTION_FOLLOW)
+        .where(MODEL_CONST.FIELD_FOLLOWEREMAIL, isEqualTo: email)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((e) {
+        return fromFirestore(e);
+      }).toList().length;
+    });
   }
 
   Stream<bool> checkFollow(String followerEmail, String followingEmail) {

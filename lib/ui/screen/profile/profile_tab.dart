@@ -22,9 +22,11 @@ class ProfileTab extends StatefulWidget {
 class _ProfileTabState extends State<ProfileTab> {
   AccountViewModel accountViewModel = AccountViewModel();
   BlogViewmodel blogViewModel = BlogViewmodel();
-
+  
   @override
   Widget build(BuildContext context) {
+    Future<Account?> currentAccount = accountViewModel.getByEmail(widget.email);
+    Stream<List<Blog>> blogStream = blogViewModel.getBlogsByEmail(widget.email);
     return Scaffold(
       body: Stack(
         children: [
@@ -33,7 +35,7 @@ class _ProfileTabState extends State<ProfileTab> {
             mainAxisSize: MainAxisSize.max,
             children: [
               FutureBuilder(
-                future: accountViewModel.getByEmail(widget.email),
+                future: currentAccount,
                 builder: (context, snapshot) {
                   return Column(
                     children: [
@@ -69,9 +71,20 @@ class _ProfileTabState extends State<ProfileTab> {
                                   ],
                                 )
                               else
-                                UI_CONST.SIZEDBOX30,
+                                Text(
+                                  'Have a good day!',
+                                  style: TextStyle(
+                                    color: Colors.blue, // Màu chữ
+                                    fontSize: 24, // Kích thước chữ
+                                    fontWeight: FontWeight.bold, // Độ đậm
+                                    fontStyle: FontStyle.italic, // Kiểu chữ nghiêng
+                                    decoration: TextDecoration.underline, // Gạch chân chữ
+                                    decorationColor: Colors.red, // Màu của gạch chân
+                                    decorationStyle: TextDecorationStyle.dashed, // Kiểu của gạch chân
+                                  ),
+                                ),
                               const SizedBox(height: 16),
-                              _ProfileInfoRow(widget.email)
+                              _ProfileInfoRow(widget.email, blogStream)
                             ],
                           ),
                         ),
@@ -81,7 +94,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 }
               ),
               StreamBuilder(
-                  stream: blogViewModel.getBlogsByEmail(widget.email), builder: (context, snapshot) {
+                  stream: blogStream, builder: (context, snapshot) {
                     List<Blog> blogs = snapshot.data ?? [];
                     return ListView.builder(
                       shrinkWrap: true,
@@ -92,7 +105,6 @@ class _ProfileTabState extends State<ProfileTab> {
                         },
                     );
                   },),
-              //StreamBuilder(stream: stream, builder: builder)
             ],
           ),
         ),
@@ -175,17 +187,19 @@ class _ProfileTabState extends State<ProfileTab> {
 
 class _ProfileInfoRow extends StatelessWidget {
   final String email;
+  Stream<List<Blog>> blogStream;
   FollowViewmodel followViewmodel = FollowViewmodel();
-  final List<ProfileInfoItem> _items = const [
-    ProfileInfoItem("Posts", 3),
-    ProfileInfoItem("Followers", 1),
-    ProfileInfoItem("Following", 1),
-  ];
+  
 
-  _ProfileInfoRow(this.email);
+  _ProfileInfoRow(this.email, this.blogStream);
 
   @override
   Widget build(BuildContext context) {
+    final List<ProfileInfoItem> _items = [
+      ProfileInfoItem("Posts", blogStream.map((event) => event.length)),
+      ProfileInfoItem("Followers", followViewmodel.countFollower(email)),
+      ProfileInfoItem("Following", followViewmodel.countFollowing(email)),
+    ];
     return Container(
       height: 80,
       constraints: const BoxConstraints(maxWidth: 400),
@@ -209,12 +223,23 @@ class _ProfileInfoRow extends StatelessWidget {
     children: [
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(
-          item.value.toString(),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+        child: StreamBuilder<int>(
+          stream: item.value,
+          builder: (context, snapshot) {
+            if (snapshot.hasData){
+              return Text(
+                snapshot.data.toString(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              );
+            }
+            else {
+              return const Center(child: CircularProgressIndicator());
+            }
+            
+          }
         ),
       ),
       Text(
@@ -227,8 +252,8 @@ class _ProfileInfoRow extends StatelessWidget {
 
 class ProfileInfoItem {
   final String title;
-  final int value;
-  const ProfileInfoItem(this.title, this.value);
+  Stream<int> value;
+  ProfileInfoItem(this.title, this.value);
 }
 
 class _TopPortion extends StatelessWidget {
