@@ -31,6 +31,9 @@ class ListViewBlog extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData){
               List<Blog> list = snapshot.data ?? [];
+              if (list.isEmpty) {
+                return const Text("No data matching with this words!");
+              }
               return ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) {

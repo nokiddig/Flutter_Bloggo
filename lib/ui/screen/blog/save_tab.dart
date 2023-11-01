@@ -31,6 +31,9 @@ class _SaveTabState extends State<SaveTab> {
             builder: (context, snapshot) {
               if (snapshot.hasData){
                 List<Save> saveList = snapshot.data ?? [];
+                if (saveList.isEmpty){
+                  return const Text("You have not saved anything!");
+                }
                 return ListView.builder(
                   itemCount: saveList.length,
                   itemBuilder: (context, index) {
