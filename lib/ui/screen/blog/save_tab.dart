@@ -71,6 +71,14 @@ class _SaveTabState extends State<SaveTab> {
                                   top: 50,
                                   left: 100,
                                   child: Text("Time: ${saveList[index].timestamp.toDate()}"),),
+                                Positioned(
+                                    child: IconButton(onPressed: (){
+                                      saveViewmodel.delete(save.blogId);
+                                    },
+                                      icon: Icon(Icons.bookmark_remove_outlined),),
+                                    right: 0,
+                                    top: 0
+                                )
                               ],
                             ),
                           );

@@ -33,9 +33,9 @@ class SaveViewmodel extends ViewModel<Save>{
   }
 
   @override
-  Future<void> delete(String str) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete(String blogId) async {
+    _firestore.collection(MODEL_CONST.COLLECTION_SAVE)
+        .doc('${SaveAccount.currentEmail},$blogId').delete();
   }
 
   @override

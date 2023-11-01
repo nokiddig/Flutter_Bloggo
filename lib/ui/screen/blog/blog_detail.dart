@@ -192,7 +192,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                   right: UI_CONST.BORDER_SIDE,
                   bottom: UI_CONST.BORDER_SIDE
               )),
-          constraints: BoxConstraints(maxHeight: 100, minHeight: 0),
+          constraints: BoxConstraints(maxHeight: 150, minHeight: 0),
           child: StreamBuilder(
             stream: commentViewmodel.getByBlogId(widget.blog.id),
             builder: (context, snapshot) {
@@ -267,9 +267,16 @@ class _ABlogDetailState extends State<ABlogDetail> {
   Widget buildReaction() {
     return Container(
       margin: EdgeInsets.only(left: 30, right: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [buildLikeCount(), VerticalDivider(), buildCommentCount()],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildLikeCount(),
+            VerticalDivider(width: 150,),
+            buildCommentCount()
+          ],
+        ),
       ),
     );
   }
