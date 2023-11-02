@@ -1,4 +1,3 @@
-import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/model/save.dart';
 import 'package:blog_app/services/save_account.dart';
 import 'package:blog_app/viewmodel/viewmodel.dart';

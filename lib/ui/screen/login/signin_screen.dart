@@ -3,8 +3,6 @@ import 'package:blog_app/ui/screen/app/bottom_navigation_app.dart';
 import 'package:blog_app/ui/screen/login/signup_screen.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
 import 'package:flutter/material.dart';
-
-import '../../../model/account.dart';
 import '../../../services/firebase_authentication.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -220,16 +218,16 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void forgotPassword() {
-    String _email = _emailController.text;
-    sendPasswordResetEmail(_email);
+    String email = _emailController.text;
+    sendPasswordResetEmail(email);
     showDialog(context: context, builder: (context) {
       return AlertDialog(
-        title: Text("Reset Password"),
-        content: Text("Reset Password sent successfully!"),
+        title: const Text("Reset Password"),
+        content: const Text("Reset Password sent successfully!"),
         actions: [
           ElevatedButton(onPressed: (){
             Navigator.pop(context);
-          }, child: Text("Ok"))
+          }, child: const Text("Ok"))
         ],
       );
     },);

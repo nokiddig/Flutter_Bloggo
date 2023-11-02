@@ -42,6 +42,7 @@ class _BlogDetailState extends State<BlogDetail> {
   }
 }
 
+// ignore: must_be_immutable
 class ABlogDetail extends StatefulWidget {
   Blog blog;
 
@@ -83,11 +84,11 @@ class _ABlogDetailState extends State<ABlogDetail> {
                           Navigator.push(context, route);
                         },
                         child: Container(
-                            margin: EdgeInsets.only(left: 20),
+                            margin: const EdgeInsets.only(left: 20),
                             child: createBloggerAvatar(account, context)),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 10),
+                        margin: const EdgeInsets.only(left: 10),
                         width: 200,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +140,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                   ),
                 );
               }
-              return Center(child: const CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             },
           ),
           StreamBuilder<Blog?>(
@@ -148,7 +149,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                 if (snapshot.hasData) {
                   Blog blogSnap = snapshot.data!;
                   return Padding(
-                    padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                    padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                     child: Column(
                       children: [
                         Container(
@@ -174,7 +175,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               })
         ],
@@ -192,7 +193,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                   right: UI_CONST.BORDER_SIDE,
                   bottom: UI_CONST.BORDER_SIDE
               )),
-          constraints: BoxConstraints(maxHeight: 150, minHeight: 0),
+          constraints: const BoxConstraints(maxHeight: 150, minHeight: 0),
           child: StreamBuilder(
             stream: commentViewmodel.getByBlogId(widget.blog.id),
             builder: (context, snapshot) {
@@ -217,7 +218,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                             subtitle: Text(list[index].content),
                           );
                         } else {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         }
                       }),
                 );
@@ -249,7 +250,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                 onPressed: () {
                   submitComment();
                 },
-                child: Text('Submit'))
+                child: const Text('Submit'))
           ],
         ),
       ],
@@ -266,14 +267,14 @@ class _ABlogDetailState extends State<ABlogDetail> {
 
   Widget buildReaction() {
     return Container(
-      margin: EdgeInsets.only(left: 30, right: 30),
+      margin: const EdgeInsets.only(left: 30, right: 30),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildLikeCount(),
-            VerticalDivider(width: 150,),
+            const VerticalDivider(width: 150,),
             buildCommentCount()
           ],
         ),
@@ -309,7 +310,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                   );
                 }
                 return IconButton(
-                    onPressed: () {}, icon: Icon(Icons.favorite_border));
+                    onPressed: () {}, icon: const Icon(Icons.favorite_border));
               }),
           StreamBuilder(
             stream: likeViewmodel.countLike(widget.blog.id),
@@ -330,7 +331,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
                 _isCommentVisible = !_isCommentVisible;
               });
             },
-            icon: Icon(Icons.comment_outlined),
+            icon: const Icon(Icons.comment_outlined),
             color: Colors.blueAccent,
           ),
           StreamBuilder(
@@ -349,17 +350,17 @@ class _ABlogDetailState extends State<ABlogDetail> {
       // false = user must tap button, true = tap outside dialog
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text('Confirm'),
-          content: Text('You want to delete this post?'),
+          title: const Text('Confirm'),
+          content: const Text('You want to delete this post?'),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(dialogContext).pop(); // Dismiss alert dialog
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: const Text('Yes'),
               onPressed: () {
                 blogViewmodel.delete(widget.blog.id);
                 Navigator.of(dialogContext).pop(); // Dismiss alert dialog

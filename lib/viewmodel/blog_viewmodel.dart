@@ -1,8 +1,5 @@
 import 'package:blog_app/model/blog.dart';
-import 'package:blog_app/model/follow.dart';
-import 'package:blog_app/model/notification.dart';
 import 'package:blog_app/viewmodel/follow_viewmodel.dart';
-import 'package:blog_app/viewmodel/notification_viewmodel.dart';
 import 'package:blog_app/viewmodel/viewmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -42,24 +39,6 @@ class BlogViewmodel extends ViewModel<Blog> {
     } catch (e) {
       return;
     }
-    FollowViewmodel followViewmodel = FollowViewmodel();
-    DateTime now = DateTime.now();
-    //int followerCount = await followViewmodel.countFollower(t.email);
-    // FollowViewmodel()
-    //     .getFollowerByEmail(t.email)
-    //     .take(followerCount)
-    //     .listen((event) {
-    //   if (event.length == followerCount) {
-    //     event.forEach((element) {
-    //       NotificationViewmodel().add(Noti(
-    //           'Post new blog: ${t.title}',
-    //           element.followerEmail,
-    //           MODEL_CONST.COLLECTION_BLOG,
-    //           Timestamp.fromDate(DateTime.now()),
-    //           t.id));
-    //     });
-    //   }
-    // });
   }
 
   @override

@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CreateBlog extends StatefulWidget {
-  CreateBlog({super.key});
+  const CreateBlog({super.key});
 
   @override
   State<CreateBlog> createState() => _CreateBlogState();
@@ -32,7 +32,7 @@ class _CreateBlogState extends State<CreateBlog> {
             UI_CONST.SIZEDBOX30,
             TextFormField(
               textCapitalization: TextCapitalization.sentences,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Blog's title..",
                 labelText: "Title",
                 icon: Icon(Icons.title),
@@ -54,7 +54,7 @@ class _CreateBlogState extends State<CreateBlog> {
               maxLines: 3,
               minLines: 1,
               keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Content",
                 labelText: "Content",
                 icon: Icon(Icons.content_paste_outlined),
@@ -73,7 +73,7 @@ class _CreateBlogState extends State<CreateBlog> {
             ),
             UI_CONST.SIZEDBOX15,
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Image address",
                 labelText: "Image",
                 icon: Icon(Icons.image_outlined),
@@ -87,12 +87,12 @@ class _CreateBlogState extends State<CreateBlog> {
             UI_CONST.SIZEDBOX15,
             DropdownButton<String>(
               icon: Icon(Icons.category_outlined),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
               ),
               hint: Text("Category"),
              value: _selectedValue,
-                items: <DropdownMenuItem<String>>[
+                items: const <DropdownMenuItem<String>>[
                   DropdownMenuItem<String>(
                     value: '1',
                     child: Text('Technology'),
@@ -125,7 +125,7 @@ class _CreateBlogState extends State<CreateBlog> {
                   createBlog();
                 }
               },
-              child: Text("Submit"),
+              child: const Text("Submit"),
             )
           ],
         ),

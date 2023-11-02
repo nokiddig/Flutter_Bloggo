@@ -5,7 +5,7 @@ import '../blog/blog_detail.dart';
 class ListViewBlogScreen extends StatelessWidget{
   Future<List<Blog>> future;
 
-  ListViewBlogScreen(this.future);
+  ListViewBlogScreen(this.future, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ListViewBlogScreen extends StatelessWidget{
 }
 
 class ListViewBlog extends StatelessWidget {
-  ListViewBlog(this.future);
+  ListViewBlog(this.future, {super.key});
 
   Future<List<Blog>> future;
 
@@ -74,7 +74,7 @@ class ListViewBlog extends StatelessWidget {
               );
             }
             else{
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
           }
       );

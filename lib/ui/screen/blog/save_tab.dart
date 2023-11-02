@@ -75,12 +75,12 @@ class _SaveTabState extends State<SaveTab> {
                                   left: 100,
                                   child: Text("Time: ${saveList[index].timestamp.toDate()}"),),
                                 Positioned(
+                                    right: 0,
+                                    top: 0,
                                     child: IconButton(onPressed: (){
                                       saveViewmodel.delete(save.blogId);
                                     },
-                                      icon: Icon(Icons.bookmark_remove_outlined),),
-                                    right: 0,
-                                    top: 0
+                                      icon: Icon(Icons.bookmark_remove_outlined),)
                                 )
                               ],
                             ),
@@ -97,7 +97,7 @@ class _SaveTabState extends State<SaveTab> {
                 return Text("Đã xảy ra lỗi khi đoc save: ${snapshot.error}");
               }
               else{
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
             },),
       ),

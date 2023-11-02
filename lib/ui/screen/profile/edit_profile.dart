@@ -4,7 +4,6 @@ import 'package:blog_app/viewmodel/account_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/account.dart';
-import '../../../utils/constain/ui_const.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -14,8 +13,8 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _avatarController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _avatarController = TextEditingController();
   int selectedGender = 0; // nam
   final _formKey = GlobalKey<FormState>();
 
@@ -71,7 +70,7 @@ class _EditProfileState extends State<EditProfile> {
                       scrollController: ScrollController(),
                       maxLines: 1,
                       keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Avatar path...",
                         labelText: "Avatar",
                         icon: Icon(Icons.image_outlined),
@@ -89,7 +88,7 @@ class _EditProfileState extends State<EditProfile> {
                     Column(
                       children: <Widget>[
                         RadioListTile(
-                          title: Text('Male'),
+                          title: const Text('Male'),
                           value: 0,
                           groupValue: selectedGender,
                           onChanged: (value) {
@@ -99,7 +98,7 @@ class _EditProfileState extends State<EditProfile> {
                           },
                         ),
                         RadioListTile(
-                          title: Text('Female'),
+                          title: const Text('Female'),
                           value: 1,
                           groupValue: selectedGender,
                           onChanged: (value) {
@@ -117,7 +116,7 @@ class _EditProfileState extends State<EditProfile> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Processing Data')),
                           );
-                          this.editProfile(account);
+                          editProfile(account);
                           Navigator.pop(context);
                         }
                       },
@@ -126,9 +125,9 @@ class _EditProfileState extends State<EditProfile> {
                   ],
                 );
               } else if (snapshot.hasError) {
-                return Text("Error: " + snapshot.error.toString());
+                return Text("Error: ${snapshot.error}");
               } else {
-                return Center(child: const CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
             }),
       ),

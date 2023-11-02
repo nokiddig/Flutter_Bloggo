@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({Key? key});
+  const HomeTab({super.key});
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -26,7 +26,7 @@ class _HomeTabState extends State<HomeTab> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Container(
+            SizedBox(
                 height: 150,
                 child: Center(child: Lottie.network("https://lottie.host/a7ff454c-f78a-41d1-a71f-a43277f5494e/o55QYBhiwd.json"))),
             Text("Highlight", style: FONT_CONST.SESSION,),
@@ -65,7 +65,7 @@ class Highlight extends StatelessWidget {
                   child: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(right: 10),
+                        margin: const EdgeInsets.only(right: 10),
                         height: 100,
                         width: 100,
                         decoration: BoxDecoration(
@@ -89,15 +89,13 @@ class Highlight extends StatelessWidget {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 3,
                                 blurRadius: 5,
-                                offset: Offset(0, 3), // changes position of shadow
+                                offset: const Offset(0, 3), // changes position of shadow
                               )]
                             ),
                             //color: Colors.white,
                             width: 80,
                               child: Text(blog.title,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                ),
                               )
                           )
                       )
@@ -132,7 +130,7 @@ class NewFeed extends StatelessWidget {
           List<Blog> data = snapshot.data ?? [];
           return ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: data.length,
             itemBuilder: (context, index) {
               Blog blog = data[index];
@@ -152,7 +150,7 @@ class NewFeed extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Container(
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               // height: 90,
                               decoration: BoxDecoration(
                                   image: DecorationImage(

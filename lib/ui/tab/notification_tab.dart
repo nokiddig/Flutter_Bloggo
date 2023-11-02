@@ -6,8 +6,6 @@ import 'package:blog_app/viewmodel/blog_viewmodel.dart';
 import 'package:blog_app/viewmodel/notification_viewmodel.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/blog.dart';
-
 class NotificationTab extends StatefulWidget {
   const NotificationTab({super.key});
 
@@ -40,13 +38,13 @@ class _NotificationTabState extends State<NotificationTab> {
             return Text('Error while creating notification ${snapshot.error}');
           }
           else {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
         });
   }
 
   redirectToNotification(BuildContext context, Noti notification) {
-    Future.delayed(Duration(milliseconds: 500));
+    Future.delayed(const Duration(milliseconds: 500));
     switch (notification.type){
       case MODEL_CONST.COLLECTION_BLOG:
         showDialog(
@@ -59,7 +57,9 @@ class _NotificationTabState extends State<NotificationTab> {
                 if (snapshot.hasData){
                   return ABlogDetail(snapshot.data!);
                 }
-                else return CircularProgressIndicator();
+                else {
+                  return const CircularProgressIndicator();
+                }
               },),
           ),
         );

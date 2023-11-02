@@ -11,7 +11,7 @@ class CategoryTab extends StatefulWidget {
     return _instance;
   }
 
-  CategoryTab._internal({super.key});
+  const CategoryTab._internal();
 
   @override
   State<CategoryTab> createState() => _CategoryTabState();
@@ -44,7 +44,7 @@ class _CategoryTabState extends State<CategoryTab> {
                         => ListViewBlogScreen(blogViewmodel.getBlogByCategory(list[index].id)),));
                   },
                   child: Container(
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(list[index].image),
@@ -69,7 +69,7 @@ class _CategoryTabState extends State<CategoryTab> {
             return Text("Loi doc category ${snapshot.error}");
           }
           else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         }
       ),

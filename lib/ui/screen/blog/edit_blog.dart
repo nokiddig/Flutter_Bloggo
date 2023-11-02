@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class EditBlog extends StatefulWidget {
   Blog blog;
 
-  EditBlog(this.blog);
+  EditBlog(this.blog, {super.key});
 
   @override
   State<EditBlog> createState() => _EditBlogState();
@@ -33,7 +33,7 @@ class _EditBlogState extends State<EditBlog> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Blog"),
+        title: const Text("Edit Blog"),
       ),
       body: Form(
         key: _formKey,
@@ -42,7 +42,7 @@ class _EditBlogState extends State<EditBlog> {
             UI_CONST.SIZEDBOX30,
             TextFormField(
               textCapitalization: TextCapitalization.sentences,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Blog's title..",
                 labelText: "Title",
                 icon: Icon(Icons.title),
@@ -65,7 +65,7 @@ class _EditBlogState extends State<EditBlog> {
               maxLines: 3,
               minLines: 1,
               keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Content",
                 labelText: "Content",
                 icon: Icon(Icons.content_paste_outlined),
@@ -85,7 +85,7 @@ class _EditBlogState extends State<EditBlog> {
             ),
             UI_CONST.SIZEDBOX15,
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Image address",
                 labelText: "Image",
                 icon: Icon(Icons.image_outlined),
@@ -98,13 +98,13 @@ class _EditBlogState extends State<EditBlog> {
             ),
             UI_CONST.SIZEDBOX15,
             DropdownButton<String>(
-              icon: Icon(Icons.category_outlined),
-              style: TextStyle(
+              icon: const Icon(Icons.category_outlined),
+              style: const TextStyle(
                 color: Colors.black,
               ),
-              hint: Text("Category"),
+              hint: const Text("Category"),
               value: _selectedValue,
-              items: <DropdownMenuItem<String>>[
+              items: const <DropdownMenuItem<String>>[
                 DropdownMenuItem<String>(
                   value: '1',
                   child: Text('Technology'),
@@ -138,7 +138,7 @@ class _EditBlogState extends State<EditBlog> {
                   Navigator.pop(context);
                 }
               },
-              child: Text("Submit"),
+              child: const Text("Submit"),
             )
           ],
         ),

@@ -24,6 +24,7 @@ class AccountViewModel extends ViewModel<Account>{
     }
   }
 
+  @override
   Future<List<Account>> getAll() async {
     List<Account> all = [];
     QuerySnapshot querySnapshot = await _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).get();
@@ -33,10 +34,12 @@ class AccountViewModel extends ViewModel<Account>{
     return all;
   }
 
+  @override
   Future<void> delete(String email) async {
     await _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).doc(email).delete();
   }
 
+  @override
   Future<void> edit(Account account) async {
     await _firestore.collection(MODEL_CONST.COLLECTION_ACCOUNT).doc(account.email)
         .set(convertToMap(account));

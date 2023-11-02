@@ -71,7 +71,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                   ],
                                 )
                               else
-                                Text(
+                                const Text(
                                   'Have a good day!',
                                   style: TextStyle(
                                     color: Colors.blue, // Màu chữ
@@ -98,7 +98,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     List<Blog> blogs = snapshot.data ?? [];
                     return ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: blogs.length,
                         itemBuilder: (context, index) {
                           return ABlogDetail(blogs[index]);
@@ -112,7 +112,7 @@ class _ProfileTabState extends State<ProfileTab> {
             top: 16,
             left: 10,
             child: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -123,9 +123,9 @@ class _ProfileTabState extends State<ProfileTab> {
             top: 16,
             right: 10,
             child: IconButton(
-              icon: Icon(Icons.settings),
+              icon: const Icon(Icons.settings),
               onPressed: () {
-                Route route = MaterialPageRoute(builder: (context) => EditProfile(),);
+                Route route = MaterialPageRoute(builder: (context) => const EditProfile(),);
                 Navigator.push(context, route);
               },
               color: Colors.white,
@@ -135,12 +135,12 @@ class _ProfileTabState extends State<ProfileTab> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Route route = MaterialPageRoute(builder: (context) => CreateBlog(),);
+          Route route = MaterialPageRoute(builder: (context) => const CreateBlog(),);
           Navigator.push(context, route);
         },
-        child: Icon(Icons.add),
         backgroundColor: Colors.white,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add),
       ),
     );
   }

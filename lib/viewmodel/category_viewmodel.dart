@@ -1,4 +1,3 @@
-import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/model/category.dart';
 import 'package:blog_app/viewmodel/viewmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

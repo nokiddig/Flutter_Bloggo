@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     SaveAccount();
     _controller = AnimationController(
         vsync: this,
-        duration: Duration(seconds: 1));
+        duration: const Duration(seconds: 1));
 
     CurvedAnimation curvedAnimation = CurvedAnimation(
         parent: _controller, curve: Curves.easeIn);
@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           animation: _animation,
           builder: (BuildContext context, Widget? child) {
               if (_animation.isCompleted) {
-                Future.delayed(Duration(milliseconds: 500), () {
+                Future.delayed(const Duration(milliseconds: 500), () {
                   if (SaveAccount.currentEmail != null){
                     Navigator.pushReplacement(
                       context,
@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   else {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => SignInScreen()),
+                      MaterialPageRoute(builder: (context) => const SignInScreen()),
                     );
                   }
 
