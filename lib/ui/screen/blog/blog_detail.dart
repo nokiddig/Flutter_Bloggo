@@ -9,12 +9,12 @@ import 'package:blog_app/ui/screen/blog/edit_blog.dart';
 import 'package:blog_app/ui/screen/item/avatar.dart';
 import 'package:blog_app/ui/screen/profile/profile_tab.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
-import 'package:blog_app/viewmodel/account_viewmodel.dart';
-import 'package:blog_app/viewmodel/blog_viewmodel.dart';
-import 'package:blog_app/viewmodel/category_viewmodel.dart';
-import 'package:blog_app/viewmodel/comment_viewmodel.dart';
-import 'package:blog_app/viewmodel/like_viewmodel.dart';
-import 'package:blog_app/viewmodel/save_viewmodel.dart';
+import 'package:blog_app/repository/account_repository.dart';
+import 'package:blog_app/repository/blog_repository.dart';
+import 'package:blog_app/repository/category_repository.dart';
+import 'package:blog_app/repository/comment_repository.dart';
+import 'package:blog_app/repository/like_repository.dart';
+import 'package:blog_app/repository/save_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -53,10 +53,10 @@ class ABlogDetail extends StatefulWidget {
 }
 
 class _ABlogDetailState extends State<ABlogDetail> {
-  BlogViewmodel blogViewmodel = BlogViewmodel();
-  LikeViewmodel likeViewmodel = LikeViewmodel();
-  CommentViewmodel commentViewmodel = CommentViewmodel();
-  AccountViewModel accountViewModel = AccountViewModel();
+  BlogRepository blogViewmodel = BlogRepository();
+  LikeRepository likeViewmodel = LikeRepository();
+  CommentRepository commentViewmodel = CommentRepository();
+  AccountRepository accountViewModel = AccountRepository();
   final TextEditingController _commentController = TextEditingController();
   bool _isCommentVisible = false;
   @override
@@ -66,7 +66,7 @@ class _ABlogDetailState extends State<ABlogDetail> {
         children: [
           UI_CONST.SIZEDBOX10,
           FutureBuilder(
-            future: AccountViewModel().getByEmail(widget.blog.email),
+            future: AccountRepository().getByEmail(widget.blog.email),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 Account account =
@@ -383,13 +383,13 @@ class _ABlogDetailState extends State<ABlogDetail> {
   void saveBlog() {
     Timestamp time = Timestamp.fromDate(DateTime.now());
     if (SaveAccount.currentEmail != null) {
-      SaveViewmodel()
+      SaveRepository()
           .add(Save(SaveAccount.currentEmail!, widget.blog.id, time));
     }
   }
 
   Widget buildTagCategory(String categoryId) {
-    CategoryViewmodel categoryViewmodel = CategoryViewmodel();
+    CategoryRepository categoryViewmodel = CategoryRepository();
     return StreamBuilder(
         stream: categoryViewmodel.getById(categoryId),
         builder: (context, snapshot) => Container(

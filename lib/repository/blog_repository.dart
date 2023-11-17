@@ -1,19 +1,18 @@
 import 'package:blog_app/model/blog.dart';
-import 'package:blog_app/viewmodel/follow_viewmodel.dart';
-import 'package:blog_app/viewmodel/viewmodel.dart';
+import 'repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../utils/constain/firebase_model_const.dart';
 
-class BlogViewmodel extends ViewModel<Blog> {
+class BlogRepository extends Repository<Blog> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  static final BlogViewmodel _instance = BlogViewmodel._internal();
+  static final BlogRepository _instance = BlogRepository._internal();
 
-  factory BlogViewmodel() {
+  factory BlogRepository() {
     return _instance;
   }
 
-  BlogViewmodel._internal();
+  BlogRepository._internal();
 
   Future<String> genNewId() async {
     QuerySnapshot querySnapshot =
@@ -161,13 +160,18 @@ class BlogViewmodel extends ViewModel<Blog> {
   @override
   Future<List<Blog>> highlight() async {
     List<Blog> result = [];
-    QuerySnapshot querySnapshot =
-    await _firestore.collection(MODEL_CONST.COLLECTION_BLOG)
-        .orderBy(MODEL_CONST.FIELD_TIME, descending: false)
-        .get();
-    querySnapshot.docs.forEach((element) {
-      result.add(fromFirestore(element));
-    });
+    try{
+      QuerySnapshot querySnapshot =
+      await _firestore.collection(MODEL_CONST.COLLECTION_BLOG)
+          .orderBy(MODEL_CONST.FIELD_TIME, descending: false)
+          .get();
+      querySnapshot.docs.forEach((element) {
+        result.add(fromFirestore(element));
+      });
+    }
+    catch (e) {
+
+    }
     return result;
   }
 }

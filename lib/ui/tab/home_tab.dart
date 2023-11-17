@@ -2,8 +2,9 @@ import 'package:blog_app/model/blog.dart';
 import 'package:blog_app/ui/screen/blog/blog_detail.dart';
 import 'package:blog_app/utils/constain/font_const.dart';
 import 'package:blog_app/utils/constain/my_const.dart';
-import 'package:blog_app/viewmodel/blog_viewmodel.dart';
+import 'package:blog_app/repository/blog_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeTab extends StatefulWidget {
@@ -14,7 +15,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  final BlogViewmodel viewmodel = BlogViewmodel();
+  final BlogRepository viewmodel = BlogRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class _HomeTabState extends State<HomeTab> {
 }
 
 class Highlight extends StatelessWidget {
-  final BlogViewmodel viewmodel;
+  final BlogRepository viewmodel;
 
   const Highlight({super.key, required this.viewmodel});
 
@@ -105,6 +106,8 @@ class Highlight extends StatelessWidget {
               },
             );
           } else if (snapshot.hasError) {
+            Fluttertoast.showToast(msg: "Error!");
+            Navigator.pop(context);
             return Text("Đã xảy ra lỗi: ${snapshot.error}");
           }
           return const CircularProgressIndicator();
@@ -115,7 +118,7 @@ class Highlight extends StatelessWidget {
 }
 
 class NewFeed extends StatelessWidget {
-  final BlogViewmodel viewmodel;
+  final BlogRepository viewmodel;
 
   const NewFeed({
     super.key,

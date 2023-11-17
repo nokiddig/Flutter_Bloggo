@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-abstract class ViewModel<T>{
+abstract class Repository<T>{
   T fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc);
   Map<String, dynamic> convertToMap(T t);
   Future<void> add(T t);

@@ -47,6 +47,7 @@ dependencies:
 #  awesome_notifications: ^0.8.2
   firebase_analytics: ^10.6.1
   flutter_local_notifications: ^16.1.0
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:
